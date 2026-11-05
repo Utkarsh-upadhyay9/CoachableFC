@@ -32,6 +32,18 @@ export class Policy {
     return x;
   }
 
+  // Softmax over the 18 actions: what the agent would pick, and how likely each action is.
+  probs(obs) {
+    const z = this.logits(obs);
+    let max = -Infinity;
+    for (let i = 0; i < z.length; i++) if (z[i] > max) max = z[i];
+    const p = new Float64Array(z.length);
+    let total = 0;
+    for (let i = 0; i < z.length; i++) { p[i] = Math.exp(z[i] - max); total += p[i]; }
+    for (let i = 0; i < p.length; i++) p[i] /= total;
+    return p;
+  }
+
   act(obs, greedy = false, rng = Math.random) {
     const z = this.logits(obs);
     let best = 0;

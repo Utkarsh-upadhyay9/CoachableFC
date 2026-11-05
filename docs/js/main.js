@@ -1,281 +1,744 @@
-import { CFG, Game } from "./game.js";
+import { CFG, Game, MOVE_DIRS, N_ACTIONS, N_MOVES } from "./game.js";
 import { ChaseBot, Policy, RandomBot } from "./policy.js";
 
-const canvas = document.getElementById("pitch");
+const $ = (id) => document.getElementById(id);
+const canvas = $("pitch");
 const ctx = canvas.getContext("2d");
-const el = (id) => document.getElementById(id);
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+// ------------------------------------------------------------------ geometry
+// Everything is drawn in "logical" pixels (SCALE per game unit). The canvas is then
+// scaled to its on-screen size and the device pixel ratio, so it stays sharp.
 const SCALE = 8;
 const MARGIN = 24;
-canvas.width = CFG.field_l * SCALE + 2 * MARGIN;
-canvas.height = CFG.field_h * SCALE + 2 * MARGIN;
+const LW = CFG.field_l * SCALE + 2 * MARGIN;
+const LH = CFG.field_h * SCALE + 2 * MARGIN;
+const X = (x) => MARGIN + x * SCALE;
+const Y = (y) => MARGIN + (CFG.field_h - y) * SCALE;
 
 const COLORS = {
-  grass: "#2e7d32",
-  grassDark: "#28702d",
-  line: "#ebf5eb",
-  team: ["#e53935", "#1e88e5"],
-  ball: "#fafafa",
+  surround: "#25703a",
+  grassA: "#2e8b3f",
+  grassB: "#287c38",
+  line: "rgba(246, 252, 244, 0.92)",
+  team: ["#d6382a", "#1d5bd6"],
+  ink: "#14221b",
 };
 
+// ---------------------------------------------------------------------- state
 const state = {
   game: new Game(),
+  prev: null, // positions before the latest step, for smooth drawing between steps
   opponents: {},
-  agent: null,
-  left: null, // null = human
+  info: {}, // id -> { label, short, note }
+  agent: null, // right player (blue)
+  left: null, // left player (red); null means the human
+  names: ["You", "Pro"],
   score: [0, 0],
   firstTo: 5,
   fps: 30,
-  paused: true,
-  over: false,
+  phase: "ready", // ready | playing | paused | goal | over
   watch: false,
   greedy: false,
   acc: 0,
   last: performance.now(),
-  flash: 0,
+  holdUntil: 0,
+  trail: [],
+  pulses: [],
+  spin: 0,
 };
 
-const keys = new Set();
-window.addEventListener("keydown", (e) => {
-  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) e.preventDefault();
-  keys.add(e.key.toLowerCase());
-  if (e.key === "p" || e.key === "P") togglePause();
-  if (e.key === "r" || e.key === "R") restart();
-});
-window.addEventListener("keyup", (e) => keys.delete(e.key.toLowerCase()));
-window.addEventListener("blur", () => keys.clear());
+const brain = { moves: new Float32Array(N_MOVES), kick: 0, conf: 0, picked: 0, live: false };
 
-// Minimal on-screen controls for touch devices.
-const touch = { dx: 0, dy: 0, kick: false };
+// ------------------------------------------------------------------ canvas size
+const pitchLayer = document.createElement("canvas");
+let k = 1;
+
+function resize() {
+  const rect = canvas.getBoundingClientRect();
+  if (!rect.width) return;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+  const w = Math.round(rect.width * dpr);
+  const h = Math.round((w * LH) / LW);
+  if (canvas.width === w && canvas.height === h) return;
+  canvas.width = w;
+  canvas.height = h;
+  k = w / LW;
+  pitchLayer.width = w;
+  pitchLayer.height = h;
+  const p = pitchLayer.getContext("2d");
+  p.setTransform(k, 0, 0, k, 0, 0);
+  paintPitch(p);
+}
+new ResizeObserver(resize).observe(canvas);
+
+// The static pitch is painted once per size, then copied every frame.
+function paintPitch(p) {
+  const c = CFG;
+  const fw = c.field_l * SCALE;
+  const fh = c.field_h * SCALE;
+
+  p.fillStyle = COLORS.surround;
+  p.fillRect(0, 0, LW, LH);
+  for (let i = 0; i < 10; i++) {
+    p.fillStyle = i % 2 ? COLORS.grassB : COLORS.grassA;
+    p.fillRect(MARGIN + (i * fw) / 10, MARGIN, fw / 10 + 0.6, fh);
+  }
+
+  // markings
+  p.strokeStyle = COLORS.line;
+  p.fillStyle = COLORS.line;
+  p.lineWidth = 2;
+  p.strokeRect(X(0), Y(c.field_h), fw, fh);
+  p.beginPath();
+  p.moveTo(X(c.field_l / 2), Y(c.field_h));
+  p.lineTo(X(c.field_l / 2), Y(0));
+  p.stroke();
+  p.beginPath();
+  p.arc(X(c.field_l / 2), Y(c.field_h / 2), 8 * SCALE, 0, 2 * Math.PI);
+  p.stroke();
+  p.beginPath();
+  p.arc(X(c.field_l / 2), Y(c.field_h / 2), 3, 0, 2 * Math.PI);
+  p.fill();
+  // penalty and goal areas (cosmetic: the physics has no special rules there)
+  const mid = c.field_h / 2;
+  for (const dir of [0, 1]) {
+    const edge = dir === 0 ? 0 : c.field_l;
+    const sign = dir === 0 ? 1 : -1;
+    for (const [depth, half] of [[14, 20], [5, 12]]) {
+      p.strokeRect(
+        Math.min(X(edge), X(edge + sign * depth)),
+        Y(mid + half),
+        depth * SCALE,
+        half * 2 * SCALE
+      );
+    }
+    p.beginPath();
+    p.arc(X(edge + sign * 10), Y(mid), 3, 0, 2 * Math.PI);
+    p.fill();
+  }
+  // corner arcs
+  for (const [cx, cy, a0] of [[0, 0, 0], [c.field_l, 0, Math.PI / 2], [c.field_l, c.field_h, Math.PI], [0, c.field_h, -Math.PI / 2]]) {
+    p.beginPath();
+    p.arc(X(cx), Y(cy), 2 * SCALE, a0 === 0 ? -Math.PI / 2 : a0 - Math.PI / 2, a0 === 0 ? 0 : a0);
+    p.stroke();
+  }
+
+  // goals with a net
+  const gTop = Y(mid + c.goal_w / 2);
+  const gh = c.goal_w * SCALE;
+  const depth = 2.5 * SCALE;
+  [[X(0) - depth, COLORS.team[0]], [X(c.field_l), COLORS.team[1]]].forEach(([gx, col]) => {
+    p.fillStyle = "rgba(255,255,255,0.2)";
+    p.fillRect(gx, gTop, depth, gh);
+    p.save();
+    p.beginPath();
+    p.rect(gx, gTop, depth, gh);
+    p.clip();
+    p.strokeStyle = "rgba(255,255,255,0.45)";
+    p.lineWidth = 1;
+    for (let d = -gh; d < depth + gh; d += 6) {
+      p.beginPath(); p.moveTo(gx + d, gTop); p.lineTo(gx + d - gh, gTop + gh); p.stroke();
+      p.beginPath(); p.moveTo(gx + d, gTop); p.lineTo(gx + d + gh, gTop + gh); p.stroke();
+    }
+    p.restore();
+    p.strokeStyle = col;
+    p.lineWidth = 3.5;
+    p.strokeRect(gx, gTop, depth, gh);
+  });
+
+  // soft vignette so the pitch feels lit from the middle
+  const v = p.createRadialGradient(LW / 2, LH / 2, LH * 0.35, LW / 2, LH / 2, LW * 0.62);
+  v.addColorStop(0, "rgba(0,0,0,0)");
+  v.addColorStop(1, "rgba(0,18,8,0.28)");
+  p.fillStyle = v;
+  p.fillRect(0, 0, LW, LH);
+}
+
+// ---------------------------------------------------------------------- input
+// Physical key positions (event.code), so WASD works on any keyboard layout.
+const held = new Set();
+const virtual = new Set(); // keys pressed on screen with a finger or mouse
+const GAME_CODES = new Set(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "KeyW", "KeyA", "KeyS", "KeyD", "Space"]);
+const isDown = (...codes) => codes.some((c) => held.has(c) || virtual.has(c));
 
 function humanAction() {
-  const has = (...k) => k.some((x) => keys.has(x));
-  let dx = (has("arrowright", "d") ? 1 : 0) - (has("arrowleft", "a") ? 1 : 0);
-  let dy = (has("arrowup", "w") ? 1 : 0) - (has("arrowdown", "s") ? 1 : 0);
-  if (!dx && !dy) { dx = touch.dx; dy = touch.dy; }
-  return Game.keyboardAction(dx, dy, has(" ") || touch.kick, 0);
-}
-document.querySelectorAll("[data-dir]").forEach((b) => {
-  const [dx, dy] = b.dataset.dir.split(",").map(Number);
-  const on = (e) => { e.preventDefault(); touch.dx = dx; touch.dy = dy; };
-  const off = (e) => { e.preventDefault(); touch.dx = 0; touch.dy = 0; };
-  b.addEventListener("pointerdown", on);
-  b.addEventListener("pointerup", off);
-  b.addEventListener("pointerleave", off);
-});
-const kickBtn = el("touch-kick");
-if (kickBtn) {
-  kickBtn.addEventListener("pointerdown", (e) => { e.preventDefault(); touch.kick = true; });
-  kickBtn.addEventListener("pointerup", () => { touch.kick = false; });
-  kickBtn.addEventListener("pointerleave", () => { touch.kick = false; });
+  const dx = (isDown("ArrowRight", "KeyD") ? 1 : 0) - (isDown("ArrowLeft", "KeyA") ? 1 : 0);
+  const dy = (isDown("ArrowUp", "KeyW") ? 1 : 0) - (isDown("ArrowDown", "KeyS") ? 1 : 0);
+  return Game.keyboardAction(dx, dy, isDown("Space"), 0);
 }
 
-function playerAct(player, side) {
-  const obs = state.game.observe(side);
-  return player.act(obs, state.greedy);
+function isFormControl(t) {
+  return t instanceof HTMLElement && t.matches("select, input, textarea");
+}
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Meta") held.clear(); // macOS drops key-up events while Cmd is held
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (isFormControl(e.target)) return;
+
+  if (e.code === "KeyP" || e.code === "Escape") {
+    if (!e.repeat) togglePause();
+    return;
+  }
+  if (e.code === "KeyR") {
+    // Only outside live play, so a slip next to WASD never throws the match away.
+    if (!e.repeat && state.phase !== "playing" && state.phase !== "goal") startMatch();
+    return;
+  }
+  if (!GAME_CODES.has(e.code)) return;
+
+  const onButton = e.target instanceof HTMLElement && e.target.closest("button");
+  if (e.code === "Space" && onButton) return; // let a focused button handle its own Space
+  e.preventDefault();
+  held.add(e.code);
+  if (e.code === "Space" && !e.repeat) {
+    if (state.phase === "ready" || state.phase === "over") startMatch();
+    else if (state.phase === "paused") togglePause();
+  }
+});
+window.addEventListener("keyup", (e) => held.delete(e.code));
+window.addEventListener("blur", () => held.clear());
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    held.clear();
+    if (state.phase === "playing") togglePause();
+  }
+});
+
+// On-screen keys: the same keycaps that light up on the keyboard also work as a touch controller.
+const keycaps = [...document.querySelectorAll(".key[data-code]")];
+keycaps.forEach((el) => {
+  const code = el.dataset.code;
+  const release = () => virtual.delete(code);
+  el.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    try { el.setPointerCapture(e.pointerId); } catch { /* not every pointer can be captured */ }
+    virtual.add(code);
+  });
+  el.addEventListener("pointerup", release);
+  el.addEventListener("pointercancel", release);
+  el.addEventListener("lostpointercapture", release);
+  el.addEventListener("contextmenu", (e) => e.preventDefault());
+});
+function paintKeycaps() {
+  for (const el of keycaps) el.classList.toggle("down", isDown(el.dataset.code));
+}
+
+// ------------------------------------------------------------------ simulation
+function snapshot() {
+  const g = state.game;
+  state.prev = { pos: g.pos.map((p) => [...p]), ball: [...g.ball] };
+}
+
+function kickoff() {
+  state.game.reset();
+  snapshot();
+  state.trail.length = 0;
+  state.pulses.length = 0;
+  state.acc = 0;
+  setClock();
+}
+
+function setClock() {
+  $("clock").firstElementChild.style.transform = `scaleX(${Math.min(1, state.game.t / CFG.max_steps)})`;
+}
+
+function sample(p) {
+  let u = Math.random();
+  for (let i = 0; i < p.length; i++) { u -= p[i]; if (u <= 0) return i; }
+  return p.length - 1;
+}
+function argmax(p) {
+  let best = 0;
+  for (let i = 1; i < p.length; i++) if (p[i] > p[best]) best = i;
+  return best;
+}
+
+// The blue agent's action, plus a smoothed copy of its odds for the side panel.
+function agentAct(obs) {
+  const player = state.agent;
+  if (!player.probs) return player.act(obs, state.greedy);
+  const p = player.probs(obs);
+  const action = state.greedy ? argmax(p) : sample(p);
+
+  const moves = new Float32Array(N_MOVES);
+  let kick = 0, entropy = 0;
+  for (let i = 0; i < N_ACTIONS; i++) {
+    moves[i % N_MOVES] += p[i];
+    if (i >= N_MOVES) kick += p[i];
+    if (p[i] > 1e-12) entropy -= p[i] * Math.log(p[i]);
+  }
+  const conf = 1 - entropy / Math.log(N_ACTIONS);
+  const s = brain.live ? 0.35 : 1; // ease between steps so the panel does not flicker
+  for (let m = 0; m < N_MOVES; m++) brain.moves[m] += s * (moves[m] - brain.moves[m]);
+  brain.kick += s * (kick - brain.kick);
+  brain.conf += s * (conf - brain.conf);
+  brain.picked = action % N_MOVES;
+  brain.live = true;
+  return action;
 }
 
 function tick() {
   const g = state.game;
-  const a0 = state.left ? playerAct(state.left, 0) : humanAction();
-  const a1 = playerAct(state.agent, 1);
+  snapshot();
+  const a0 = state.left ? state.left.act(g.observe(0), state.greedy) : humanAction();
+  const a1 = agentAct(g.observe(1));
   const r = g.step([a0, a1]);
-  if (r.done) {
-    if (r.goal === 1) state.score[0] += 1;
-    if (r.goal === -1) state.score[1] += 1;
-    if (r.goal !== 0) state.flash = 30;
-    g.reset();
-    if (Math.max(...state.score) >= state.firstTo) finishMatch();
-    updateScore();
+
+  const speed = Math.hypot(g.ballVel[0], g.ballVel[1]);
+  state.spin += speed * 0.14;
+  state.trail.push([g.ball[0], g.ball[1]]);
+  if (state.trail.length > 12) state.trail.shift();
+  for (let i = 0; i < 2; i++) {
+    if (g.cooldown[i] === CFG.kick_cooldown) state.pulses.push({ i, x: g.pos[i][0], y: g.pos[i][1], born: performance.now() });
   }
+  setClock();
+  paintBrain();
+
+  if (!r.done) return;
+  if (r.goal !== 0) {
+    const side = r.goal === 1 ? 0 : 1;
+    state.score[side] += 1;
+    state.phase = "goal";
+    state.holdUntil = performance.now() + 1300;
+    showGoal(side);
+    updateScore();
+  } else {
+    say("Time. Nobody scored, so it is back to kickoff.");
+    kickoff();
+  }
+}
+
+function afterGoal() {
+  $("goal-banner").classList.remove("show");
+  if (Math.max(...state.score) >= state.firstTo) return finishMatch();
+  kickoff();
+  state.phase = "playing";
+}
+
+// ------------------------------------------------------------------ match flow
+function startMatch() {
+  applySettings();
+  state.score = [0, 0];
+  state.phase = "playing";
+  kickoff();
+  hideOverlay();
+  $("goal-banner").classList.remove("show");
+  updateScore();
+  setPauseButton();
+  say(state.watch ? "Watching two players." : "Kick off. You are red and attack to the right.");
+  focusPitch();
+}
+
+function togglePause() {
+  if (state.phase === "playing") {
+    state.phase = "paused";
+    showOverlay("paused");
+  } else if (state.phase === "paused") {
+    state.phase = "playing";
+    state.acc = 0;
+    hideOverlay();
+    focusPitch();
+  }
+  setPauseButton();
 }
 
 function finishMatch() {
-  state.over = true;
-  state.paused = true;
-  const [you, ai] = state.score;
-  if (!state.watch) recordResult(you > ai);
-  const who = state.watch ? (you > ai ? "Left player wins" : "Agent wins") : you > ai ? "You win!" : "The agent wins";
-  el("status").textContent = `${who} ${you}–${ai}. Press Restart (or R) for a rematch.`;
-  el("btn-start").textContent = "Restart";
+  state.phase = "over";
+  const [a, b] = state.score;
+  const leftWon = a > b;
+  if (!state.watch) recordResult(leftWon);
+  showOverlay("over");
+  setPauseButton();
+  say(`Final score ${a} to ${b}.`);
 }
 
+function resetToReady() {
+  state.phase = "ready";
+  state.score = [0, 0];
+  kickoff();
+  showOverlay("ready");
+  updateScore();
+  setPauseButton();
+  say("Pick an opponent and kick off.");
+}
+
+function focusPitch() {
+  canvas.focus({ preventScroll: true });
+}
+
+function setPauseButton() {
+  const b = $("btn-pause");
+  b.disabled = state.phase !== "playing" && state.phase !== "paused";
+  b.textContent = state.phase === "paused" ? "Resume" : "Pause";
+}
+
+// -------------------------------------------------------------------- records
+function readRecord(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || '{"w":0,"l":0}');
+  } catch {
+    return { w: 0, l: 0 };
+  }
+}
 function recordResult(won) {
-  const key = `record:${el("opponent").value}`;
-  const rec = JSON.parse(localStorage.getItem(key) || '{"w":0,"l":0}');
+  const key = `record:${$("opponent").value}`;
+  const rec = readRecord(key);
   if (won) rec.w += 1; else rec.l += 1;
-  localStorage.setItem(key, JSON.stringify(rec));
+  try { localStorage.setItem(key, JSON.stringify(rec)); } catch { /* storage can be blocked; the session still works */ }
   updateRecord();
 }
-
 function updateRecord() {
-  const key = `record:${el("opponent").value}`;
-  const rec = JSON.parse(localStorage.getItem(key) || '{"w":0,"l":0}');
-  el("record").textContent = `Your record vs this agent: ${rec.w} W / ${rec.l} L`;
+  const el = $("record");
+  if (state.watch) { el.textContent = ""; return; }
+  const rec = readRecord(`record:${$("opponent").value}`);
+  el.textContent = `Your record against ${state.names[1]}: ${rec.w} won, ${rec.l} lost.`;
 }
+
+// ------------------------------------------------------------------------ DOM
+function say(text) { $("status").textContent = text; }
 
 function updateScore() {
-  el("score-left").textContent = state.score[0];
-  el("score-right").textContent = state.score[1];
-  el("name-left").textContent = state.watch ? el("left-player").selectedOptions[0].text : "You";
-  el("name-right").textContent = el("opponent").selectedOptions[0].text;
+  $("score-left").textContent = state.score[0];
+  $("score-right").textContent = state.score[1];
+  $("name-left").textContent = state.names[0];
+  $("name-right").textContent = state.names[1];
+  $("round-label").textContent = `First to ${state.firstTo}`;
+  $("score-left").setAttribute("aria-label", `${state.names[0]} goals`);
+  $("score-right").setAttribute("aria-label", `${state.names[1]} goals`);
 }
 
-// ---------------------------------------------------------------- drawing
-const X = (x) => MARGIN + x * SCALE;
-const Y = (y) => MARGIN + (CFG.field_h - y) * SCALE;
+function showGoal(side) {
+  const b = $("goal-banner");
+  b.className = `goal-banner ${side === 0 ? "red" : "blue"}`;
+  const who = side === 0 ? (state.watch ? state.names[0] : "You") : state.names[1];
+  $("goal-who").textContent = side === 0 && !state.watch ? "You scored" : `${who} scored`;
+  void b.offsetWidth; // restart the transition
+  b.classList.add("show");
+  say(`${who} scored. ${state.score[0]} to ${state.score[1]}.`);
+}
 
-function draw() {
-  const c = CFG;
+function showOverlay(kind) {
+  const [a, b] = state.score;
+  const t = $("ov-title"), s = $("ov-sub"), p = $("ov-primary"), q = $("ov-secondary"), h = $("ov-hint");
+  q.hidden = true;
+  if (kind === "ready") {
+    t.textContent = state.watch ? "Watch two players" : "Beat the agent that taught itself football";
+    s.textContent = state.watch
+      ? `${state.names[0]} on the left, ${state.names[1]} on the right. First to ${state.firstTo}.`
+      : `You are red and attack to the right. First to ${state.firstTo} goals wins.`;
+    p.textContent = state.watch ? "Start match" : "Kick off";
+    h.textContent = "Or press Space.";
+  } else if (kind === "paused") {
+    t.textContent = "Paused";
+    s.textContent = `${state.names[0]} ${a}, ${state.names[1]} ${b}. First to ${state.firstTo}.`;
+    p.textContent = "Resume";
+    q.hidden = false;
+    h.textContent = "Press P or Space to carry on, R to restart.";
+  } else {
+    const leftWon = a > b;
+    t.textContent = state.watch
+      ? `${leftWon ? state.names[0] : state.names[1]} wins ${Math.max(a, b)} to ${Math.min(a, b)}`
+      : leftWon ? `You win ${a} to ${b}` : `${state.names[1]} wins ${b} to ${a}`;
+    const rec = readRecord(`record:${$("opponent").value}`);
+    s.textContent = state.watch ? "Run it again, or change the players below." : `Your record against ${state.names[1]}: ${rec.w} won, ${rec.l} lost.`;
+    p.textContent = "Play again";
+    h.textContent = "Or press Space.";
+  }
+  $("overlay").hidden = false;
+}
+function hideOverlay() { $("overlay").hidden = true; }
+
+// What the blue agent is "thinking": a 3x3 compass of move odds plus kick and confidence.
+const compass = $("compass");
+const GLYPH = { "-1,1": "↖", "0,1": "↑", "1,1": "↗", "-1,0": "←", "0,0": "stay", "1,0": "→", "-1,-1": "↙", "0,-1": "↓", "1,-1": "↘" };
+const cells = new Array(N_MOVES);
+for (let row = 0; row < 3; row++) {
+  for (let col = 0; col < 3; col++) {
+    // Find which move points to this cell. The agent plays the right side, so its x is mirrored on screen.
+    const sx = col - 1, sy = 1 - row;
+    const m = MOVE_DIRS.findIndex((d) => Math.sign(Math.round(-d[0] * 10)) === sx && Math.sign(Math.round(d[1] * 10)) === sy);
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.innerHTML = `<span class="g">${GLYPH[`${sx},${sy}`]}</span><span class="n">0%</span>`;
+    compass.append(cell);
+    cells[m] = cell;
+  }
+}
+
+function paintBrain(force = false) {
+  if (!brain.live && !force) return;
+  for (let m = 0; m < N_MOVES; m++) {
+    const v = brain.moves[m];
+    const a = 0.06 + 0.94 * Math.min(1, v / 0.55);
+    const cell = cells[m];
+    cell.style.setProperty("--a", a.toFixed(3));
+    cell.classList.toggle("hot", a > 0.55);
+    cell.classList.toggle("picked", m === brain.picked);
+    cell.lastElementChild.textContent = brain.live ? `${Math.round(v * 100)}%` : "–";
+  }
+  $("kick-bar").style.transform = `scaleX(${brain.kick.toFixed(3)})`;
+  $("kick-val").textContent = `${Math.round(brain.kick * 100)}%`;
+  $("conf-bar").style.transform = `scaleX(${Math.max(0, brain.conf).toFixed(3)})`;
+  $("conf-val").textContent = `${Math.round(Math.max(0, brain.conf) * 100)}%`;
+}
+
+// ------------------------------------------------------------------- drawing
+function draw(now) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.drawImage(pitchLayer, 0, 0);
+  ctx.setTransform(k, 0, 0, k, 0, 0);
+
   const g = state.game;
-  ctx.fillStyle = COLORS.grass;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  const fw = c.field_l * SCALE, fh = c.field_h * SCALE;
-  ctx.fillStyle = COLORS.grassDark;
-  for (let k = 0; k < 10; k += 2) ctx.fillRect(X(0) + (k * fw) / 10, Y(c.field_h), fw / 10, fh);
+  const c = CFG;
+  const a = state.phase === "playing" && state.prev ? Math.min(1, state.acc / (1000 / state.fps)) : 1;
+  const lerp = (p0, p1) => p0 + (p1 - p0) * a;
+  const at = (cur, old) => (state.prev ? [lerp(old[0], cur[0]), lerp(old[1], cur[1])] : cur);
+  const players = [0, 1].map((i) => at(g.pos[i], state.prev ? state.prev.pos[i] : g.pos[i]));
+  const ball = at(g.ball, state.prev ? state.prev.ball : g.ball);
 
-  ctx.strokeStyle = COLORS.line;
-  ctx.lineWidth = 2;
-  ctx.strokeRect(X(0), Y(c.field_h), fw, fh);
+  // ball trail
+  if (!reduceMotion && state.trail.length > 1 && Math.hypot(g.ballVel[0], g.ballVel[1]) > 0.8) {
+    const n = state.trail.length;
+    for (let j = 0; j < n; j++) {
+      const [tx, ty] = state.trail[j];
+      ctx.beginPath();
+      ctx.arc(X(tx), Y(ty), Math.max(2, c.ball_r * SCALE * (0.35 + 0.5 * (j / n))), 0, 2 * Math.PI);
+      ctx.fillStyle = `rgba(255,255,255,${(0.28 * (j + 1)) / n})`;
+      ctx.fill();
+    }
+  }
+
+  // kick pulses
+  if (!reduceMotion) {
+    state.pulses = state.pulses.filter((p) => now - p.born < 320);
+    for (const p of state.pulses) {
+      const t = (now - p.born) / 320;
+      ctx.beginPath();
+      ctx.arc(X(p.x), Y(p.y), (c.player_r + 0.8 + t * 3.2) * SCALE, 0, 2 * Math.PI);
+      ctx.strokeStyle = `rgba(255,255,255,${0.75 * (1 - t)})`;
+      ctx.lineWidth = 3 * (1 - t) + 1;
+      ctx.stroke();
+    }
+  }
+
+  for (let i = 0; i < 2; i++) drawPlayer(i, players[i], g);
+  drawBall(ball);
+
+  // name tags above the players so you always know who is who
+  for (let i = 0; i < 2; i++) drawTag(i, players[i]);
+
+  if (state.phase === "paused" || state.phase === "over") {
+    ctx.fillStyle = "rgba(10,28,18,0.0)";
+    ctx.fillRect(0, 0, LW, LH);
+  }
+}
+
+function drawPlayer(i, [px, py], g) {
+  const r = CFG.player_r * SCALE;
+  const cx = X(px), cy = Y(py);
+
+  ctx.fillStyle = "rgba(0,20,8,0.28)";
   ctx.beginPath();
-  ctx.moveTo(X(c.field_l / 2), Y(c.field_h));
-  ctx.lineTo(X(c.field_l / 2), Y(0));
-  ctx.stroke();
+  ctx.ellipse(cx + 2, cy + 4, r, r * 0.88, 0, 0, 2 * Math.PI);
+  ctx.fill();
+
   ctx.beginPath();
-  ctx.arc(X(c.field_l / 2), Y(c.field_h / 2), 8 * SCALE, 0, 2 * Math.PI);
+  ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+  ctx.fillStyle = COLORS.team[i];
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(cx - r * 0.25, cy - r * 0.3, r * 0.55, 0, 2 * Math.PI);
+  ctx.fillStyle = "rgba(255,255,255,0.18)";
+  ctx.fill();
+
+  // kick-ready ring: fills back up after each kick
+  const ready = 1 - g.cooldown[i] / CFG.kick_cooldown;
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "rgba(255,255,255,0.28)";
+  ctx.beginPath();
+  ctx.arc(cx, cy, r + 3.5, 0, 2 * Math.PI);
   ctx.stroke();
-
-  const gTop = Y(c.field_h / 2 + c.goal_w / 2);
-  const depth = 2.5 * SCALE;
-  [[X(0) - depth, COLORS.team[0]], [X(c.field_l), COLORS.team[1]]].forEach(([gx, col]) => {
-    ctx.fillStyle = "#dcdcdc";
-    ctx.fillRect(gx, gTop, depth, c.goal_w * SCALE);
-    ctx.strokeStyle = col;
-    ctx.lineWidth = 3;
-    ctx.strokeRect(gx, gTop, depth, c.goal_w * SCALE);
-  });
-
-  for (let i = 0; i < 2; i++) {
-    const [px, py] = g.pos[i];
+  if (ready > 0) {
+    ctx.strokeStyle = ready >= 1 ? "#ffffff" : "#f5c518";
     ctx.beginPath();
-    ctx.arc(X(px), Y(py), c.player_r * SCALE, 0, 2 * Math.PI);
-    ctx.fillStyle = COLORS.team[i];
-    ctx.fill();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = g.cooldown[i] === 0 ? COLORS.line : "#5a5a5a";
+    ctx.arc(cx, cy, r + 3.5, -Math.PI / 2, -Math.PI / 2 + ready * 2 * Math.PI);
     ctx.stroke();
   }
 
-  ctx.beginPath();
-  ctx.arc(X(g.ball[0]), Y(g.ball[1]), Math.max(3, c.ball_r * SCALE), 0, 2 * Math.PI);
-  ctx.fillStyle = COLORS.ball;
-  ctx.fill();
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = "#141414";
-  ctx.stroke();
-
-  if (state.flash > 0) {
-    ctx.fillStyle = `rgba(255,255,255,${(state.flash / 30) * 0.5})`;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#141414";
-    ctx.font = "bold 64px system-ui, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("GOAL!", canvas.width / 2, canvas.height / 2 + 20);
-    state.flash -= 1;
-  }
-  if (state.paused && !state.over) {
-    ctx.fillStyle = "rgba(0,0,0,0.35)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // heading dot
+  const [vx, vy] = g.vel[i];
+  const sp = Math.hypot(vx, vy);
+  if (sp > 0.15) {
+    ctx.beginPath();
+    ctx.arc(cx + (vx / sp) * r * 0.6, cy - (vy / sp) * r * 0.6, 3.2, 0, 2 * Math.PI);
     ctx.fillStyle = "#fff";
-    ctx.font = "bold 36px system-ui, sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(state.watch ? "Press Start to watch" : "Press Start to play", canvas.width / 2, canvas.height / 2 + 12);
+    ctx.fill();
   }
 }
 
-function loop(now) {
-  const dt = Math.min(now - state.last, 250);
+function drawBall([bx, by]) {
+  const br = Math.max(4.5, CFG.ball_r * SCALE);
+  const cx = X(bx), cy = Y(by);
+  ctx.fillStyle = "rgba(0,20,8,0.3)";
+  ctx.beginPath();
+  ctx.ellipse(cx + 1.5, cy + 3, br, br * 0.85, 0, 0, 2 * Math.PI);
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, br, 0, 2 * Math.PI);
+  ctx.fillStyle = "#fbfcfa";
+  ctx.fill();
+  ctx.lineWidth = 1.2;
+  ctx.strokeStyle = "rgba(20,34,27,0.7)";
+  ctx.stroke();
+
+  // a rolling patch, so you can see the ball spin as it travels
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(state.spin);
+  ctx.beginPath();
+  for (let j = 0; j < 5; j++) {
+    const ang = (j / 5) * 2 * Math.PI - Math.PI / 2;
+    const rr = br * 0.5;
+    ctx[j ? "lineTo" : "moveTo"](Math.cos(ang) * rr, Math.sin(ang) * rr);
+  }
+  ctx.closePath();
+  ctx.fillStyle = "rgba(20,34,27,0.85)";
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawTag(i, [px, py]) {
+  const label = i === 0 ? state.names[0] : state.names[1];
+  ctx.font = '700 12px "Hanken Grotesk", system-ui, sans-serif';
+  const w = ctx.measureText(label).width + 14;
+  const x = X(px) - w / 2;
+  const y = Y(py) - CFG.player_r * SCALE - 26;
+  ctx.fillStyle = "rgba(20,34,27,0.78)";
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, 18, 4);
+  ctx.fill();
+  ctx.fillStyle = "#fff";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(label, X(px), y + 9.5);
+}
+
+// ----------------------------------------------------------------------- loop
+function frame(now) {
+  const dt = Math.min(now - state.last, 100);
   state.last = now;
-  if (!state.paused && state.agent) {
+  if (state.phase === "playing" && state.agent) {
     state.acc += dt;
     const stepMs = 1000 / state.fps;
-    while (state.acc >= stepMs && !state.paused) {
+    while (state.acc >= stepMs && state.phase === "playing") {
       tick();
       state.acc -= stepMs;
     }
+  } else if (state.phase === "goal" && now >= state.holdUntil) {
+    afterGoal();
   }
-  draw();
-  requestAnimationFrame(loop);
+  draw(now);
+  paintKeycaps();
+  requestAnimationFrame(frame);
 }
 
-// --------------------------------------------------------------- controls
+// ------------------------------------------------------------------- settings
 function playerFor(id) {
   if (id === "chase") return new ChaseBot();
   if (id === "random") return new RandomBot();
   return state.opponents[id];
 }
-
-function restart() {
-  state.score = [0, 0];
-  state.over = false;
-  state.game.reset();
-  state.acc = 0;
-  state.paused = false;
-  el("btn-start").textContent = "Restart";
-  el("btn-pause").textContent = "Pause";
-  el("status").textContent = state.watch
-    ? "Watching two players."
-    : "Arrow keys / WASD to move, Space to kick. You are red, attacking right.";
-  updateScore();
-}
-
-function togglePause() {
-  if (state.over) return;
-  state.paused = !state.paused;
-  el("btn-pause").textContent = state.paused ? "Resume" : "Pause";
-}
+const shortName = (id) => (id === "chase" ? "Chase bot" : id === "random" ? "Random" : state.info[id]?.short || id);
+const noteFor = (id) =>
+  id === "chase" ? "Scripted rules: run behind the ball, line up with the goal, then kick."
+  : id === "random" ? "Picks a random action every step."
+  : state.info[id]?.note || "";
 
 function applySettings() {
-  state.agent = playerFor(el("opponent").value);
-  state.watch = el("mode").value === "watch";
-  state.left = state.watch ? playerFor(el("left-player").value) : null;
-  el("left-player-wrap").hidden = !state.watch;
-  state.firstTo = Number(el("first-to").value);
-  state.greedy = el("greedy").checked;
-  updateScore();
+  const oppId = $("opponent").value;
+  state.agent = playerFor(oppId);
+  state.watch = $("mode").value === "watch";
+  state.left = state.watch ? playerFor($("left-player").value) : null;
+  state.greedy = $("greedy").checked;
+  state.names = [state.watch ? shortName($("left-player").value) : "You", shortName(oppId)];
+  $("left-player-wrap").hidden = !state.watch;
+  $("opponent-note").textContent = noteFor(oppId);
+  brain.live = false;
+  brain.moves.fill(0);
+  brain.kick = brain.conf = 0;
+  brain.picked = -1;
+  $("brain").dataset.mode = state.agent.probs ? "on" : "off";
+  paintBrain(true);
   updateRecord();
 }
 
-el("speed").addEventListener("input", (e) => {
-  state.fps = Number(e.target.value);
-  el("speed-val").textContent = `${state.fps} steps/s`;
-});
-["opponent", "mode", "left-player", "first-to", "greedy"].forEach((id) =>
-  el(id).addEventListener("change", () => { applySettings(); restart(); state.paused = true; el("btn-start").textContent = "Start"; })
-);
-el("btn-start").addEventListener("click", () => { applySettings(); restart(); canvas.focus(); });
-el("btn-pause").addEventListener("click", togglePause);
+function onSettingsChange() {
+  applySettings();
+  resetToReady();
+}
 
+$("speed").addEventListener("input", (e) => {
+  state.fps = Number(e.target.value);
+  $("speed-val").textContent = `${+(state.fps / 30).toFixed(2)}×`;
+});
+$("speed").addEventListener("pointerup", focusPitch);
+["opponent", "mode", "left-player", "greedy"].forEach((id) => $(id).addEventListener("change", onSettingsChange));
+document.querySelectorAll("#first-to button").forEach((btn) =>
+  btn.addEventListener("click", () => {
+    state.firstTo = Number(btn.dataset.n);
+    document.querySelectorAll("#first-to button").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+    onSettingsChange();
+  })
+);
+
+$("ov-primary").addEventListener("click", () => (state.phase === "paused" ? togglePause() : startMatch()));
+$("ov-secondary").addEventListener("click", startMatch);
+$("btn-pause").addEventListener("click", () => { togglePause(); });
+$("btn-restart").addEventListener("click", startMatch);
+
+const fsTarget = $("match");
+if (document.fullscreenEnabled && fsTarget.requestFullscreen) {
+  $("btn-fs").hidden = false;
+  $("btn-fs").addEventListener("click", () => {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else fsTarget.requestFullscreen().then(resize).catch(() => {});
+  });
+  document.addEventListener("fullscreenchange", () => {
+    $("btn-fs").textContent = document.fullscreenElement ? "Exit full screen" : "Full screen";
+    requestAnimationFrame(resize);
+  });
+}
+
+// ----------------------------------------------------------------------- init
 async function init() {
   const manifest = await (await fetch("models/manifest.json")).json();
-  const selects = [el("opponent"), el("left-player")];
+  const selects = [$("opponent"), $("left-player")];
   const policies = await Promise.all(manifest.models.map((m) => Policy.load(`models/${m.id}.json`)));
   manifest.models.forEach((m, i) => {
     state.opponents[m.id] = policies[i];
+    state.info[m.id] = m;
     for (const s of selects) s.add(new Option(m.label, m.id));
   });
   for (const s of selects) {
     s.add(new Option("Scripted chase bot", "chase"));
     s.add(new Option("Random player", "random"));
   }
-  el("opponent").value = manifest.default;
-  el("left-player").value = "chase";
+  $("opponent").value = manifest.default;
+  $("left-player").value = "chase";
+  resize();
   applySettings();
-  el("status").textContent = "Pick an opponent and press Start.";
-  requestAnimationFrame(loop);
+  resetToReady();
+  requestAnimationFrame(frame);
 }
 
 init().catch((err) => {
-  el("status").textContent = `Could not load models: ${err.message}`;
   console.error(err);
+  say(
+    location.protocol === "file:"
+      ? "The agents could not load from a file. Run `python -m http.server` in the docs folder and open localhost:8000."
+      : `Could not load the agents: ${err.message}`
+  );
 });

@@ -2,108 +2,257 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Self-Play Football | Play against a PPO agent</title>
-  <meta name="description" content="Play 1v1 football in the browser against an agent trained with self-play PPO." />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Self-play football: beat an agent that taught itself</title>
+  <meta name="description" content="Play 1v1 football in your browser against an agent trained from scratch with self-play PPO." />
+  <meta name="theme-color" content="#14221b" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23fff' stroke='%2314221b' stroke-width='2.5'/%3E%3Cpath d='M16 9.5l5.6 4.1-2.1 6.6h-7l-2.1-6.6z' fill='%2314221b'/%3E%3C/svg%3E" />
+  <link rel="preload" href="fonts/big-shoulders-display-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header>
-    <h1>Self-Play Football</h1>
-    <p class="sub">1v1 against an agent trained from scratch with PPO and self-play. CSE 4633 Artificial Intelligence midterm project by Utkarsh Upadhyay.</p>
+  <a class="skip" href="#play">Skip to the game</a>
+
+  <header class="bar">
+    <a class="brand" href="#play">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#fff" stroke="currentColor" stroke-width="2.5"/><path d="M16 9.5l5.6 4.1-2.1 6.6h-7l-2.1-6.6z" fill="currentColor"/></svg>
+      <span>Self-play football</span>
+    </a>
+    <nav aria-label="Page sections">
+      <a href="#how">How it works</a>
+      <a href="#results">Results</a>
+      <a href="https://github.com/Utkarsh-upadhyay9/selfplay-football">Code</a>
+    </nav>
   </header>
 
   <main>
-    <section class="game">
-      <div class="scoreboard">
-        <span class="team red"><span id="name-left">You</span> <b id="score-left">0</b></span>
-        <span class="dash">–</span>
-        <span class="team blue"><b id="score-right">0</b> <span id="name-right">Agent</span></span>
-      </div>
-      <canvas id="pitch" tabindex="0" aria-label="Football pitch"></canvas>
-      <p id="status" class="status">Loading models…</p>
+    <h1 class="sr-only">Self-play football</h1>
 
-      <div class="touch" aria-hidden="true">
-        <div class="pad">
-          <button data-dir="-1,1">↖</button><button data-dir="0,1">↑</button><button data-dir="1,1">↗</button>
-          <button data-dir="-1,0">←</button><span></span><button data-dir="1,0">→</button>
-          <button data-dir="-1,-1">↙</button><button data-dir="0,-1">↓</button><button data-dir="1,-1">↘</button>
+    <section id="play" class="stage" aria-label="Game">
+      <div class="match" id="match">
+        <div class="scorebug" role="group" aria-label="Score">
+          <div class="team red">
+            <span class="who" id="name-left">You</span>
+            <output class="score" id="score-left" aria-label="Your goals">0</output>
+          </div>
+          <div class="mid">
+            <span id="round-label">First to 5</span>
+            <div class="clock" id="clock" title="Time left in this round. If nobody scores, play restarts from kickoff." aria-hidden="true"><i></i></div>
+          </div>
+          <div class="team blue">
+            <output class="score" id="score-right" aria-label="Opponent goals">0</output>
+            <span class="who" id="name-right">Pro</span>
+          </div>
         </div>
-        <button id="touch-kick" class="kick">KICK</button>
+
+        <div class="pitch">
+          <canvas id="pitch" tabindex="-1" role="img" aria-label="Football pitch. You are red and attack to the right. Move with W A S D or the arrow keys, kick with Space."></canvas>
+
+          <div class="overlay" id="overlay">
+            <div class="sheet">
+              <h2 id="ov-title">Beat the agent that taught itself football</h2>
+              <p id="ov-sub">You are red and attack to the right. First to 5 goals wins.</p>
+              <div class="ov-actions">
+                <button type="button" class="primary" id="ov-primary">Kick off</button>
+                <button type="button" class="quiet" id="ov-secondary" hidden>Restart match</button>
+              </div>
+              <p class="ov-hint" id="ov-hint">Or press Space.</p>
+            </div>
+          </div>
+
+          <div class="goal-banner" id="goal-banner" aria-hidden="true">
+            <b>Goal</b>
+            <span id="goal-who"></span>
+          </div>
+        </div>
+
+        <p class="status" id="status" role="status" aria-live="polite">Loading the agents…</p>
       </div>
 
-      <div class="controls">
-        <label>Mode
+      <div class="rail">
+        <section class="keys" aria-labelledby="keys-h">
+          <h2 id="keys-h">Controls</h2>
+          <div class="keysets" aria-hidden="true">
+            <div class="cluster wasd">
+              <span class="key k-up" data-code="KeyW">W</span>
+              <span class="key k-left" data-code="KeyA">A</span>
+              <span class="key k-down" data-code="KeyS">S</span>
+              <span class="key k-right" data-code="KeyD">D</span>
+            </div>
+            <div class="cluster arrows">
+              <span class="key k-up" data-code="ArrowUp">↑</span>
+              <span class="key k-left" data-code="ArrowLeft">←</span>
+              <span class="key k-down" data-code="ArrowDown">↓</span>
+              <span class="key k-right" data-code="ArrowRight">→</span>
+            </div>
+          </div>
+          <span class="key space" data-code="Space" aria-hidden="true">Space to kick</span>
+          <p class="sr-only">Move with W A S D or the arrow keys. Press Space to kick.</p>
+          <p class="note">Move with either set of keys. Press two at once to go diagonal. P pauses; on touch screens, tap the keys above.</p>
+        </section>
+
+        <section class="brain" id="brain" aria-labelledby="brain-h">
+          <h2 id="brain-h">Agent's next move</h2>
+          <div class="brain-on">
+            <p class="note">How likely the blue agent is to pick each direction this instant, as it sees the pitch from its own side.</p>
+            <div class="compass" id="compass" role="img" aria-label="Probability of each move direction for the agent"></div>
+            <dl class="meters">
+              <div>
+                <dt>Kick</dt>
+                <dd><span class="meter"><i id="kick-bar"></i></span><output id="kick-val">0%</output></dd>
+              </div>
+              <div>
+                <dt>Confidence</dt>
+                <dd><span class="meter"><i id="conf-bar"></i></span><output id="conf-val">0%</output></dd>
+              </div>
+            </dl>
+          </div>
+          <p class="note brain-off" id="brain-off">This opponent follows fixed rules, so there are no learned odds to show. Pick one of the trained agents to see them.</p>
+        </section>
+
+        <p class="record" id="record"></p>
+      </div>
+
+      <form class="deck" id="deck" aria-label="Match settings" onsubmit="return false">
+        <div class="field opp">
+          <label for="opponent">Opponent</label>
+          <select id="opponent"></select>
+          <p class="note" id="opponent-note"></p>
+        </div>
+        <div class="field">
+          <label for="mode">Mode</label>
           <select id="mode">
             <option value="play">You vs agent</option>
-            <option value="watch">Watch: player vs agent</option>
+            <option value="watch">Watch two players</option>
           </select>
-        </label>
-        <label>Opponent (blue)
-          <select id="opponent"></select>
-        </label>
-        <label id="left-player-wrap" hidden>Left player (red)
-          <select id="left-player"></select>
-        </label>
-        <label>First to
-          <select id="first-to">
-            <option>3</option>
-            <option selected>5</option>
-            <option>10</option>
-          </select>
-        </label>
-        <label>Speed <span id="speed-val">30 steps/s</span>
-          <input id="speed" type="range" min="10" max="60" step="5" value="30" />
-        </label>
-        <label class="check"><input id="greedy" type="checkbox" /> Greedy agent (no sampling)</label>
-        <div class="buttons">
-          <button id="btn-start" class="primary">Start</button>
-          <button id="btn-pause">Pause</button>
         </div>
-      </div>
-      <p id="record" class="record"></p>
-      <p class="hint">Controls: arrow keys or WASD to move, Space to kick, P to pause, R to restart. Lower the speed if the agent is too quick.</p>
+        <div class="field" id="left-player-wrap" hidden>
+          <label for="left-player">Left player (red)</label>
+          <select id="left-player"></select>
+        </div>
+        <fieldset class="field seg" id="first-to">
+          <legend>First to</legend>
+          <div class="segs">
+            <button type="button" data-n="3" aria-pressed="false">3</button>
+            <button type="button" data-n="5" aria-pressed="true">5</button>
+            <button type="button" data-n="10" aria-pressed="false">10</button>
+          </div>
+        </fieldset>
+        <div class="field speed">
+          <label for="speed">Speed <output id="speed-val">1×</output></label>
+          <input id="speed" type="range" min="10" max="60" step="5" value="30" aria-describedby="speed-note" />
+          <p class="note" id="speed-note">1× is 30 steps per second. Slow it down if the agent is too quick.</p>
+        </div>
+        <label class="check">
+          <input id="greedy" type="checkbox" />
+          <span>Predictable agent<small>Always plays its most likely move instead of sometimes gambling.</small></span>
+        </label>
+        <div class="actions">
+          <button type="button" id="btn-pause" disabled>Pause</button>
+          <button type="button" id="btn-restart">Restart</button>
+          <button type="button" id="btn-fs" hidden>Full screen</button>
+        </div>
+      </form>
     </section>
 
-    <section class="about">
-      <h2>How it works</h2>
-      <p>The game is a small top-down physics simulation: two round players, a ball with friction, walls that bounce, and goals on each end. Each player picks one of 18 discrete actions (8 move directions or stay, each with or without a kick). Instead of pixels, the agent sees a 16-number vector: positions and velocities of both players and the ball, from its own point of view (the field is mirrored so it always attacks to the right).</p>
-      <p>The agent is a small two-layer MLP trained with <a href="https://arxiv.org/abs/1707.06347">PPO</a> on 64 games in parallel on a laptop CPU. It only ever plays against copies of itself. To keep it from forgetting old tricks, half of the games each rollout are against snapshots sampled from a pool of its own past versions. Early on, a small shaping reward for moving toward the ball and pushing the ball toward the opponent goal helps it get started; that bonus fades to zero halfway through training, leaving only the +1/−1 goal reward.</p>
-      <p>The physics you are playing in here is a line-by-line JavaScript port of the Python training environment (checked step-for-step by a test), and the network runs directly in your browser.</p>
-      <h2>Results</h2>
-      <p>Four 30M-step runs, each about 16 minutes on an M5 MacBook Air: the main setup with two seeds, a sparse-reward-only ablation, and a "latest copy only" ablation without the opponent pool.</p>
-      <div class="figures">
+    <section id="how" class="prose" aria-labelledby="how-h">
+      <h2 id="how-h">How the agent learned</h2>
+      <p>The game is a small top-down physics simulation: two round players, a ball with friction, walls that bounce, and a goal at each end. A player chooses one of 18 actions every step: stay or move in one of 8 directions, each with or without a kick.</p>
+
+      <ol class="flow" aria-label="What happens every step">
+        <li><b>It sees</b><span>16 numbers: where both players and the ball are, and how fast they move, from its own side. The pitch is mirrored so it always attacks to the right.</span></li>
+        <li><b>It thinks</b><span>A small neural network with two layers of 128 units.</span></li>
+        <li><b>It weighs</b><span>18 probabilities, one for each action. This is what the panel beside the pitch shows.</span></li>
+        <li><b>It acts</b><span>One action is drawn from those odds, 30 times a second.</span></li>
+      </ol>
+
+      <p>It learned with <a href="https://arxiv.org/abs/1707.06347">PPO</a> on 64 games at once on a laptop CPU, and only ever played copies of itself. To keep it from forgetting old tricks, half of the games in each batch were against snapshots from a pool of its own past versions. Early on, a small bonus for moving toward the ball and pushing it toward the opponent's goal helped it get started. That bonus faded to zero halfway through training, so the last half was learned from goals alone.</p>
+      <p>The physics you play here is a line-by-line JavaScript port of the Python training environment, checked step for step by a test. The network runs in your browser.</p>
+    </section>
+
+    <section id="results" class="prose results" aria-labelledby="res-h">
+      <h2 id="res-h">What training showed</h2>
+      <p class="lede">Four runs of 30M steps each, about 16 minutes apiece on an M5 MacBook Air: the main setup with two seeds, a run with goal rewards only, and a run that played only its latest copy.</p>
+
+      <article class="finding">
+        <div>
+          <h3>Past opponents keep the agent improving</h3>
+          <p>With a pool of old versions to play, Elo rose steadily to about +300 over a random player. Playing only the latest copy peaked near 5.7M steps, then the two copies settled into a 0–0 standoff and the agent fell behind the scripted bot.</p>
+        </div>
         <figure>
-          <img src="figures/elo_compare.png" alt="Elo of checkpoints over training for the four runs" loading="lazy" />
-          <figcaption>Elo of checkpoints over training, fitted from round-robin cross-play (random bot = 0). With the opponent pool, agents keep improving. Latest-only self-play peaks early and then collapses into a 0–0 equilibrium.</figcaption>
+          <img src="figures/elo_compare.png" width="1050" height="600" alt="Elo of checkpoints over training for the four runs" loading="lazy" />
+          <figcaption>Elo of checkpoints over training, fitted from round-robin cross-play. The random bot is 0.</figcaption>
         </figure>
+      </article>
+
+      <article class="finding">
+        <div>
+          <h3>Later checkpoints beat earlier ones</h3>
+          <p>In the pool runs, a later checkpoint beat an earlier one in 83–89% of pairings. Blue below the diagonal means the newer agent won.</p>
+        </div>
         <figure>
-          <img src="figures/crossplay_heatmap.png" alt="Cross-play heatmap of checkpoints" loading="lazy" />
-          <figcaption>Cross-play score (win = 1, draw = 0.5) between checkpoints of the final agent's run. Blue below the diagonal means later checkpoints beat earlier ones.</figcaption>
+          <img src="figures/crossplay_heatmap.png" width="1305" height="1140" alt="Cross-play heatmap of checkpoints" loading="lazy" />
+          <figcaption>Cross-play score between checkpoints of the final agent's run (win 1, draw 0.5).</figcaption>
         </figure>
+      </article>
+
+      <article class="finding">
+        <div>
+          <h3>Reward shaping mostly speeds up the start</h3>
+          <p>The run with goal rewards only was behind early on and caught up by about 8M steps. It finished level with the shaped runs.</p>
+        </div>
         <figure>
-          <img src="figures/learning_curves.png" alt="Learning curves" loading="lazy" />
-          <figcaption>Win rate against the scripted bots, self-play draw rate, and policy entropy over training.</figcaption>
+          <img src="figures/learning_curves.png" width="1500" height="975" alt="Win rate against the scripted bots, self-play draw rate and policy entropy over training" loading="lazy" />
+          <figcaption>Win rate against the scripted bots, self-play draw rate, and policy entropy.</figcaption>
         </figure>
-        <figure>
-          <img src="figures/pro_vs_chase.gif" alt="Final agent playing the chase bot" loading="lazy" />
-          <figcaption>Final agent (red) vs. the scripted "chase the ball and shoot" bot.</figcaption>
-        </figure>
+      </article>
+
+      <h3 class="table-h">Final agents against the bots</h3>
+      <p class="note">1000 games each, sides alternating. Bars show wins, draws and losses.</p>
+      <div class="table-wrap">
+        <table class="wdl-table">
+          <thead>
+            <tr><th scope="col">Agent</th><th scope="col">Against a random player</th><th scope="col">Against the chase bot</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Pool self-play, seed 1<small>The Pro agent</small></th>
+              <td><div class="wdl" style="--w:70.3;--d:27.7;--l:2"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">70 W, 28 D, 2 L</span></div></td>
+              <td><div class="wdl" style="--w:79.6;--d:6.7;--l:13.7"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">80 W, 7 D, 14 L</span></div></td>
+            </tr>
+            <tr>
+              <th scope="row">Pool self-play, seed 0</th>
+              <td><div class="wdl" style="--w:46.8;--d:51.2;--l:2"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">47 W, 51 D, 2 L</span></div></td>
+              <td><div class="wdl" style="--w:71.1;--d:6.3;--l:22.6"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">71 W, 6 D, 23 L</span></div></td>
+            </tr>
+            <tr>
+              <th scope="row">Goal rewards only</th>
+              <td><div class="wdl" style="--w:46.2;--d:52.8;--l:1"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">46 W, 53 D, 1 L</span></div></td>
+              <td><div class="wdl" style="--w:85.9;--d:2.6;--l:11.5"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">86 W, 3 D, 12 L</span></div></td>
+            </tr>
+            <tr>
+              <th scope="row">Latest copy only<small>The Naive agent</small></th>
+              <td><div class="wdl" style="--w:2.7;--d:95.1;--l:2.2"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">3 W, 95 D, 2 L</span></div></td>
+              <td><div class="wdl" style="--w:14;--d:7.4;--l:78.6"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">14 W, 7 D, 79 L</span></div></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <table>
-        <thead><tr><th>Final agent (1000 games each)</th><th>vs random W / D / L</th><th>vs chase bot W / D / L</th></tr></thead>
-        <tbody>
-          <tr><td>Pool self-play, seed 1 (Pro)</td><td>70 / 28 / 2 %</td><td>80 / 7 / 14 %</td></tr>
-          <tr><td>Pool self-play, seed 0</td><td>47 / 51 / 2 %</td><td>71 / 6 / 23 %</td></tr>
-          <tr><td>Sparse reward only</td><td>46 / 53 / 1 %</td><td>86 / 3 / 12 %</td></tr>
-          <tr><td>Latest-only self-play</td><td>3 / 95 / 2 %</td><td>14 / 7 / 79 %</td></tr>
-        </tbody>
-      </table>
-      <p class="links"><a href="https://github.com/Utkarsh-upadhyay9/selfplay-football">Code on GitHub</a> · <a href="https://github.com/Utkarsh-upadhyay9/selfplay-football/blob/main/report/REPORT.md">Report</a></p>
+
+      <figure class="clip">
+        <img src="figures/pro_vs_chase.gif" width="530" height="378" alt="The final agent in red playing the scripted chase bot in blue" loading="lazy" />
+        <figcaption>The final agent (red) against the scripted chase bot.</figcaption>
+      </figure>
+
+      <p class="links"><a href="https://github.com/Utkarsh-upadhyay9/selfplay-football">Code on GitHub</a> and the <a href="https://github.com/Utkarsh-upadhyay9/selfplay-football/blob/main/report/REPORT.md">full report</a>.</p>
     </section>
   </main>
 
-  <footer>Utkarsh Upadhyay · CSE 4633 Artificial Intelligence · Fall 2026</footer>
+  <footer>
+    <p>Midterm project for CSE 4633 Artificial Intelligence, Fall 2026, by Utkarsh Upadhyay.</p>
+  </footer>
+
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
