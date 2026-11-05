@@ -68,6 +68,8 @@ python scripts/play.py --watch --agent models/final.pt --opponent chase
 
 python scripts/train.py --name my_run                     # ~16 min for 30M steps on an M5
 python -m pytest -q
+
+python -m http.server -d docs                             # the browser version, at http://localhost:8000
 ```
 
 See the report for the full set of commands used to produce every figure.
