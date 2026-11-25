@@ -34,16 +34,27 @@ class GameConfig:
     max_steps: int = 400
     kickoff_noise: float = 2.0
 
+    players_per_team: int = 1
+
     @property
     def kick_range(self) -> float:
         return self.player_r + self.ball_r + self.kick_reach
+
+    @property
+    def obs_dim(self) -> int:
+        # 1v1 layout, then (pos, vel) of each teammate and each farther opponent.
+        return OBS_DIM + 8 * (self.players_per_team - 1)
 
     def to_dict(self) -> dict:
         return asdict(self)
 
 
 DEFAULT_CONFIG = GameConfig()
+TEAM_CONFIG = GameConfig(players_per_team=2)
 
 N_MOVES = 9
 N_ACTIONS = N_MOVES * 2
 OBS_DIM = 16
+
+# Kickoff spots as fractions of (field_l, field_h) for team 0; team 1 mirrors x.
+KICKOFF = {1: ((0.25, 0.5),), 2: ((0.35, 0.35), (0.15, 0.65))}

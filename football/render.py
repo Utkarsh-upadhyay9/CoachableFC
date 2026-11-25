@@ -68,10 +68,10 @@ class Renderer:
             pg.draw.rect(scr, (220, 220, 220), (gx, gy, depth, gw))
             pg.draw.rect(scr, color, (gx, gy, depth, gw), 3)
 
-        for i in (0, 1):
+        for i in range(core.M):
             p = core.pos[idx, i]
             center = self._xy(p[0], p[1])
-            pg.draw.circle(scr, TEAM_COLORS[i], center, int(c.player_r * s))
+            pg.draw.circle(scr, TEAM_COLORS[core.team[i]], center, int(c.player_r * s))
             ready = core.cooldown[idx, i] == 0
             pg.draw.circle(scr, LINE if ready else (90, 90, 90), center, int(c.player_r * s), 2)
 
