@@ -1,8 +1,8 @@
-# Self-Play Deep RL for 2D Football
+# CoachableFC: Self-Play Deep RL for 2D Football
 
 CSE 4633 Artificial Intelligence midterm and final project · Utkarsh Upadhyay (solo)
 
-**Play it in the browser:** <https://utkarsh-upadhyay9.github.io/selfplay-football/>
+**Play it in the browser:** <https://utkarsh-upadhyay9.github.io/CoachableFC/>
 · **Report:** [report/REPORT.md](report/REPORT.md)
 
 ![Final agent (red) vs the scripted chase bot](media/pro_vs_chase.gif)
@@ -56,7 +56,7 @@ python scripts/serve_demo.py                 # web demo + coach at http://localh
 python scripts/play.py --team                # pygame 2v2; T cycles the teammate's tactic
 ```
 
-Without the local server (for example on the [live demo](https://utkarsh-upadhyay9.github.io/selfplay-football/)),
+Without the local server (for example on the [live demo](https://utkarsh-upadhyay9.github.io/CoachableFC/)),
 the coach box still works: phrases are matched by the same keywords in
 JavaScript (`docs/js/coach.js`, checked against Python by a test), and
 anything else goes to Qwen2.5 1.5B running in your browser with
@@ -97,6 +97,7 @@ scripts/
   tactics_eval.py      does the conditioned team follow its tactic?
   coach_bench.py       coach accuracy and latency benchmark
   serve_demo.py        web demo server with the /coach endpoint
+  web_figures.py       copy 2v2 figures and GIFs into docs/figures/ for the page
 docs/            the GitHub Pages site (JS port of the game + policy inference)
 models/          selected checkpoints (final.pt is the final agent; 2v2/ has the 2v2 teams)
 runs/            per-run config, metrics.csv and final checkpoint

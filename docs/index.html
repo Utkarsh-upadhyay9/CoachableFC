@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Self-play football: beat an agent that taught itself</title>
+  <title>CoachableFC: beat an agent that taught itself</title>
   <meta name="description" content="Play 1v1 or 2v2 football in your browser against agents trained from scratch with self-play PPO." />
   <meta name="theme-color" content="#14221b" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23fff' stroke='%2314221b' stroke-width='2.5'/%3E%3Cpath d='M16 9.5l5.6 4.1-2.1 6.6h-7l-2.1-6.6z' fill='%2314221b'/%3E%3C/svg%3E" />
@@ -17,17 +17,17 @@
   <header class="bar">
     <a class="brand" href="#play">
       <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#fff" stroke="currentColor" stroke-width="2.5"/><path d="M16 9.5l5.6 4.1-2.1 6.6h-7l-2.1-6.6z" fill="currentColor"/></svg>
-      <span>Self-play football</span>
+      <span>CoachableFC</span>
     </a>
     <nav aria-label="Page sections">
       <a href="#how">How it works</a>
       <a href="#results">Results</a>
-      <a href="https://github.com/Utkarsh-upadhyay9/selfplay-football">Code</a>
+      <a href="https://github.com/Utkarsh-upadhyay9/CoachableFC">Code</a>
     </nav>
   </header>
 
   <main>
-    <h1 class="sr-only">Self-play football</h1>
+    <h1 class="sr-only">CoachableFC</h1>
 
     <section id="play" class="stage" aria-label="Game">
       <div class="match" id="match">
@@ -285,6 +285,45 @@
 
       <article class="finding">
         <div>
+          <h3>One pool seed climbs, the other stalls</h3>
+          <p>The seed-1 pool run climbs to about 60% wins against the chase team while its self-play draw rate stays near 25%. The seed-0 run levels off near 35%, and 90% of its self-play games end in draws. Its policy entropy stays near 2.45, out of a maximum of 2.89, while the stronger runs fall to 1.4–1.9.</p>
+        </div>
+        <figure>
+          <img src="figures/2v2_learning_curves.png" width="1500" height="975" alt="2v2 win rate against the scripted teams, self-play draw rate and policy entropy over training for the five runs" loading="lazy" />
+          <figcaption>Win rate against the scripted teams (200 games every 25 updates), self-play draw rate, and policy entropy.</figcaption>
+        </figure>
+      </article>
+
+      <article class="finding">
+        <div>
+          <h3>The coached team keeps improving</h3>
+          <p>In the tactic-conditioned run, a later checkpoint beat an earlier one in 97% of pairings. That share was 92% for the seed-1 pool run, 74% for latest-only, 55% at ten times the tactic reward, and 53% for the stalled seed-0 pool run.</p>
+        </div>
+        <figure>
+          <img src="figures/2v2_crossplay_cond.png" width="1305" height="1140" alt="Cross-play heatmap of the tactic-conditioned 2v2 run's checkpoints" loading="lazy" />
+          <figcaption>Cross-play score between checkpoints of the tactic-conditioned run, 200 games per pair (win 1, draw 0.5).</figcaption>
+        </figure>
+      </article>
+
+      <h3 class="table-h">Cross-play in the other four runs</h3>
+      <figure class="wide">
+        <img src="figures/2v2_crossplay_others.png" width="1400" height="1223" alt="Cross-play heatmaps for the 2v2 pool run, the seed-1 pool run, the latest-only run and the run with ten times the tactic reward" loading="lazy" />
+        <figcaption>Pool seed 0, pool seed 1, latest only, and ten times the tactic reward. In the latest-only run, late checkpoints draw each other and lose to mid-training ones.</figcaption>
+      </figure>
+
+      <article class="finding">
+        <div>
+          <h3>The coached team almost never loses</h3>
+          <p>The tactic-conditioned team, at the neutral tactic, beats a random team in 77% of games and loses only 4% against the chase team. The seed-1 pool team wins most against the chase team, 58%, but also loses 23%.</p>
+        </div>
+        <figure>
+          <img src="figures/2v2_baselines.png" width="1350" height="690" alt="Wins, draws and losses of the final 2v2 teams against random, chase and mixed teams" loading="lazy" />
+          <figcaption>Final teams, 1000 games per matchup, sides alternating.</figcaption>
+        </figure>
+      </article>
+
+      <article class="finding">
+        <div>
           <h3>The teammate follows three of four tactics</h3>
           <p>Told to press, it plays higher up the pitch and wins more: 24% of games against the chase team at press −1, 54% at +1. Spread and possession move less but clearly. Left or right wing has no effect. With ten times the tactic reward, the team follows all four, but wins at most 12% against the chase team.</p>
         </div>
@@ -298,6 +337,49 @@
         <img src="figures/2v2_tactic_sweep.png" width="1902" height="496" alt="For each tactic value from −1 to 1, the matching behavior of the conditioned team and its win rate against the chase team" loading="lazy" />
         <figcaption>Each tactic value set alone from −1 to 1, 500 games per setting against the chase team. The dashed line is the team trained without tactics.</figcaption>
       </figure>
+
+      <h3 class="table-h">Where the coached team stands</h3>
+      <figure class="wide">
+        <img src="figures/2v2_tactic_heatmaps.png" width="2143" height="448" alt="Position heatmaps of the conditioned team under the neutral, press high, park the bus and left wing tactics" loading="lazy" />
+        <figcaption>Told to press, the team moves up to the halfway line; told to park the bus, both players pack into their own goal mouth; told to play the left wing, it looks the same as neutral.</figcaption>
+      </figure>
+
+      <h3 class="table-h">Ten times the tactic reward</h3>
+      <figure class="wide">
+        <img src="figures/2v2_w10_tactic_sweep.png" width="1915" height="496" alt="Tactic sweep for the team trained with ten times the tactic reward" loading="lazy" />
+        <figcaption>All four tactics now move the team, flank included (mean y from −0.63 to +0.74), but it wins at most 12% of games against the chase team under any tactic.</figcaption>
+      </figure>
+      <figure class="wide">
+        <img src="figures/2v2_w10_tactic_heatmaps.png" width="2143" height="448" alt="Position heatmaps of the ten-times-reward team under the neutral, press high, park the bus and left wing tactics" loading="lazy" />
+        <figcaption>The same four tactics for the ten-times-reward team. Each tactic sends the players to an extreme: told to play the left wing, they sit on the top touchline, mostly in the corner by their own goal.</figcaption>
+      </figure>
+
+      <article class="finding">
+        <div>
+          <h3>Keywords first, then a language model</h3>
+          <p>The coach reads 92.7% of tactic values correctly on 24 held-out phrases by trying keywords first and asking qwen2.5 3B only when they find nothing, against 88.5% for keywords alone and 79.2% for the model alone. I picked that setup after seeing the test errors, so the number is optimistic. The smaller Qwen2.5 1.5B that runs in your browser on this page scores 78.1% in the same setup.</p>
+        </div>
+        <figure>
+          <img src="figures/2v2_coach_bench.png" width="1050" height="600" alt="Share of tactic values with the right sign for each coach setup on the 24 test phrases" loading="lazy" />
+          <figcaption>Share of tactic values with the right sign on 24 phrases never used for tuning.</figcaption>
+        </figure>
+      </article>
+
+      <h3 class="table-h">Recorded 2v2 matches</h3>
+      <div class="clips">
+        <figure class="clip">
+          <img src="figures/2v2_pro_vs_chase.gif" width="530" height="378" alt="The seed-1 pool team in red playing the scripted chase team in blue" loading="lazy" />
+          <figcaption>The Pro team (red) against the scripted chase team.</figcaption>
+        </figure>
+        <figure class="clip">
+          <img src="figures/2v2_park_the_bus.gif" width="530" height="378" alt="The conditioned team in red, told to park the bus, playing the scripted chase team in blue" loading="lazy" />
+          <figcaption>The coached team (red) told to park the bus.</figcaption>
+        </figure>
+        <figure class="clip">
+          <img src="figures/2v2_w10_left_spread.gif" width="530" height="378" alt="The ten-times-reward team in red, told to play left and spread out, playing the scripted chase team in blue" loading="lazy" />
+          <figcaption>The ten-times-reward team (red) told to play left and spread out.</figcaption>
+        </figure>
+      </div>
 
       <h3 class="table-h">Final 2v2 teams against the bots</h3>
       <p class="note">1000 games each, sides alternating. Bars show wins, draws and losses.</p>
@@ -336,9 +418,9 @@
         </table>
       </div>
 
-      <p class="after-table">The teams pass very little: the best one completes about one pass per game, and both players often chase the ball together. The coach reads 92.7% of tactic values correctly on 24 held-out phrases by trying keywords first and asking qwen2.5 3B only when they find nothing, against 88.5% for keywords alone and 79.2% for the model alone. I picked that setup after seeing the test errors, so the number is optimistic.</p>
+      <p class="after-table">The teams pass very little: the best one completes about one pass per game, and both players often chase the ball together.</p>
 
-      <p class="links"><a href="https://github.com/Utkarsh-upadhyay9/selfplay-football">Code on GitHub</a>, the <a href="https://github.com/Utkarsh-upadhyay9/selfplay-football/blob/main/report/REPORT.md">midterm report</a> and the <a href="https://github.com/Utkarsh-upadhyay9/selfplay-football/blob/main/report/FINAL_REPORT.md">final report</a>.</p>
+      <p class="links"><a href="https://github.com/Utkarsh-upadhyay9/CoachableFC">Code on GitHub</a>, the <a href="https://github.com/Utkarsh-upadhyay9/CoachableFC/blob/main/report/REPORT.md">midterm report</a> and the <a href="https://github.com/Utkarsh-upadhyay9/CoachableFC/blob/main/report/FINAL_REPORT.md">final report</a>.</p>
     </section>
   </main>
 
