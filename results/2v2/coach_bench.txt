@@ -1,0 +1,17 @@
+--- dev set (32 phrases)
+                        keywords  dims 96.9%  phrases 90.6%  median latency 0.00s  llm calls 0
+             qwen2.5:3b-instruct  dims 83.6%  phrases 50.0%  median latency 1.17s  llm calls 32
+    keywords+qwen2.5:3b-instruct  dims 96.1%  phrases 90.6%  median latency 0.00s  llm calls 7
+                     llama3.2:3b  dims 85.9%  phrases 62.5%  median latency 0.99s  llm calls 32
+            keywords+llama3.2:3b  dims 93.8%  phrases 87.5%  median latency 0.00s  llm calls 7
+             qwen2.5:7b-instruct  dims 93.8%  phrases 81.2%  median latency 1.97s  llm calls 32
+    keywords+qwen2.5:7b-instruct  dims 98.4%  phrases 93.8%  median latency 0.00s  llm calls 7
+--- test set (24 phrases)
+                        keywords  dims 88.5%  phrases 62.5%  median latency 0.00s  llm calls 0
+             qwen2.5:3b-instruct  dims 79.2%  phrases 37.5%  median latency 1.03s  llm calls 24
+    keywords+qwen2.5:3b-instruct  dims 92.7%  phrases 75.0%  median latency 0.00s  llm calls 11
+                     llama3.2:3b  dims 67.7%  phrases 20.8%  median latency 0.89s  llm calls 24
+            keywords+llama3.2:3b  dims 81.2%  phrases 58.3%  median latency 0.00s  llm calls 11
+             qwen2.5:7b-instruct  dims 87.5%  phrases 62.5%  median latency 1.99s  llm calls 24
+    keywords+qwen2.5:7b-instruct  dims 92.7%  phrases 75.0%  median latency 0.00s  llm calls 11
+wrote results/2v2/coach_bench.json

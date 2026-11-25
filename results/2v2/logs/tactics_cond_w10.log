@@ -1,0 +1,7 @@
+     press: metric -0.869 at z=-1 -> +0.286 at z=+1   win vs chase 0.04 / 0.09 / 0.01
+     flank: metric -0.625 at z=-1 -> +0.738 at z=+1   win vs chase 0.01 / 0.09 / 0.05
+    spread: metric -0.430 at z=-1 -> +0.755 at z=+1   win vs chase 0.01 / 0.09 / 0.12
+possession: metric -0.576 at z=-1 -> -0.290 at z=+1   win vs chase 0.01 / 0.09 / 0.05
+end to end via keywords: 8/10 requested dimensions moved the right way
+end to end via keywords+qwen2.5:3b-instruct: 9/10 requested dimensions moved the right way
+wrote results/2v2/tactics_cond_w10/tactics.json, tactic_sweep.png, tactic_heatmaps.png

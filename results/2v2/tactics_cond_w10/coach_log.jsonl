@@ -1,0 +1,8 @@
+{"time": 1795582429.098042, "text": "press high", "model": null, "raw": null, "error": null, "z": {"press": 1.0, "flank": 0.0, "spread": 0.0, "possession": 0.0}, "source": "keywords", "latency_s": 0.0}
+{"time": 1795582430.7630239, "text": "park the bus", "model": null, "raw": null, "error": null, "z": {"press": -1.0, "flank": 0.0, "spread": 0.0, "possession": 0.0}, "source": "keywords", "latency_s": 0.0}
+{"time": 1795582432.4211452, "text": "attack down the left", "model": null, "raw": null, "error": null, "z": {"press": 1.0, "flank": 1.0, "spread": 0.0, "possession": 0.0}, "source": "keywords", "latency_s": 0.0}
+{"time": 1795582434.037756, "text": "overload the right side", "model": null, "raw": null, "error": null, "z": {"press": 0.0, "flank": -1.0, "spread": 0.0, "possession": 0.0}, "source": "keywords", "latency_s": 0.0}
+{"time": 1795582435.639958, "text": "spread out", "model": null, "raw": null, "error": null, "z": {"press": 0.0, "flank": 0.0, "spread": 1.0, "possession": 0.0}, "source": "keywords", "latency_s": 0.0}
+{"time": 1795582437.335568, "text": "stay tight as a pair", "model": null, "raw": null, "error": null, "z": {"press": 0.0, "flank": 0.0, "spread": -1.0, "possession": 0.0}, "source": "keywords", "latency_s": 0.0}
+{"time": 1795582438.9532568, "text": "hold possession", "model": null, "raw": null, "error": null, "z": {"press": 0.0, "flank": 0.0, "spread": 0.0, "possession": 1.0}, "source": "keywords", "latency_s": 0.0}
+{"time": 1795582441.344216, "text": "let them come at us and break fast", "model": "qwen2.5:3b-instruct", "raw": {"press": 1, "flank": 0, "spread": 0, "possession": 0}, "error": null, "z": {"press": 1.0, "flank": 0.0, "spread": 0.0, "possession": 0.0}, "source": "llm", "latency_s": 0.733}

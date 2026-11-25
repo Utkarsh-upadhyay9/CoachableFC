@@ -1,0 +1,4436 @@
+{
+  "n_phrases": {
+    "dev": 32,
+    "test": 24
+  },
+  "results": {
+    "dev": {
+      "keywords": {
+        "dim_accuracy": 0.96875,
+        "phrase_accuracy": 0.90625,
+        "median_latency_s": 0.0,
+        "llm_calls": 0,
+        "rows": [
+          {
+            "text": "press high",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "push up and attack",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "get forward and hunt the ball in their half",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 2
+          },
+          {
+            "text": "park the bus",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit deep and protect our goal",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend, we're winning",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't press, stay back",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "attack down the left",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "play on the right wing",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay on the top side of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "use the bottom flank",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "go through the middle",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "spread out",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay wide apart so they can't mark both of us",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stick together",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay close and support each other",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "hold possession",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "be first to every loose ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          },
+          {
+            "text": "let them have the ball and hit them on the counter",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit back, absorb pressure and counter",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "press high and spread out",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend compactly on the right",
+            "z": {
+              "press": -1.0,
+              "flank": -1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep possession on the left side",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "be a bit more aggressive",
+            "z": {
+              "press": 0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "slightly deeper please",
+            "z": {
+              "press": -0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "play normally",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "whatever you think is best",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "make me a sandwich",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "asdfgh",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "all out attack, both of you go forward together",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "one of you stay back, the other go wide and forward",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          }
+        ]
+      },
+      "qwen2.5:3b-instruct": {
+        "dim_accuracy": 0.8359375,
+        "phrase_accuracy": 0.5,
+        "median_latency_s": 1.1684999999999999,
+        "llm_calls": 32,
+        "rows": [
+          {
+            "text": "press high",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "push up and attack",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "get forward and hunt the ball in their half",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "park the bus",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit deep and protect our goal",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend, we're winning",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "don't press, stay back",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "attack down the left",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "play on the right wing",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "stay on the top side of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "use the bottom flank",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "go through the middle",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "spread out",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay wide apart so they can't mark both of us",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "stick together",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay close and support each other",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep the ball",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "hold possession",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "be first to every loose ball",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "let them have the ball and hit them on the counter",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit back, absorb pressure and counter",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "press high and spread out",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend compactly on the right",
+            "z": {
+              "press": -1.0,
+              "flank": 1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "keep possession on the left side",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "be a bit more aggressive",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "slightly deeper please",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": -0.5,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "play normally",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "whatever you think is best",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 1
+          },
+          {
+            "text": "make me a sandwich",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "asdfgh",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "all out attack, both of you go forward together",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "one of you stay back, the other go wide and forward",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          }
+        ]
+      },
+      "keywords+qwen2.5:3b-instruct": {
+        "dim_accuracy": 0.9609375,
+        "phrase_accuracy": 0.90625,
+        "median_latency_s": 0.0,
+        "llm_calls": 7,
+        "rows": [
+          {
+            "text": "press high",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "push up and attack",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "get forward and hunt the ball in their half",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "park the bus",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit deep and protect our goal",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend, we're winning",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't press, stay back",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "attack down the left",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "play on the right wing",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay on the top side of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "use the bottom flank",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "go through the middle",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "spread out",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay wide apart so they can't mark both of us",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stick together",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay close and support each other",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "hold possession",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "be first to every loose ball",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "let them have the ball and hit them on the counter",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit back, absorb pressure and counter",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "press high and spread out",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend compactly on the right",
+            "z": {
+              "press": -1.0,
+              "flank": -1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep possession on the left side",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "be a bit more aggressive",
+            "z": {
+              "press": 0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "slightly deeper please",
+            "z": {
+              "press": -0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "play normally",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "whatever you think is best",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 1
+          },
+          {
+            "text": "make me a sandwich",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "asdfgh",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "all out attack, both of you go forward together",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "one of you stay back, the other go wide and forward",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          }
+        ]
+      },
+      "llama3.2:3b": {
+        "dim_accuracy": 0.859375,
+        "phrase_accuracy": 0.625,
+        "median_latency_s": 0.988,
+        "llm_calls": 32,
+        "rows": [
+          {
+            "text": "press high",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "push up and attack",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "get forward and hunt the ball in their half",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "park the bus",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit deep and protect our goal",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend, we're winning",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't press, stay back",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "attack down the left",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "play on the right wing",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "stay on the top side of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "use the bottom flank",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "go through the middle",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "spread out",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay wide apart so they can't mark both of us",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "stick together",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay close and support each other",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep the ball",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "hold possession",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "be first to every loose ball",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "let them have the ball and hit them on the counter",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit back, absorb pressure and counter",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "press high and spread out",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend compactly on the right",
+            "z": {
+              "press": -1.0,
+              "flank": 1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "keep possession on the left side",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "be a bit more aggressive",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "slightly deeper please",
+            "z": {
+              "press": -0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "play normally",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 1
+          },
+          {
+            "text": "whatever you think is best",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 1
+          },
+          {
+            "text": "make me a sandwich",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "asdfgh",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "all out attack, both of you go forward together",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "one of you stay back, the other go wide and forward",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          }
+        ]
+      },
+      "keywords+llama3.2:3b": {
+        "dim_accuracy": 0.9375,
+        "phrase_accuracy": 0.875,
+        "median_latency_s": 0.0,
+        "llm_calls": 7,
+        "rows": [
+          {
+            "text": "press high",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "push up and attack",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "get forward and hunt the ball in their half",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "park the bus",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit deep and protect our goal",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend, we're winning",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't press, stay back",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "attack down the left",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "play on the right wing",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay on the top side of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "use the bottom flank",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "go through the middle",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "spread out",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay wide apart so they can't mark both of us",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stick together",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay close and support each other",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "hold possession",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "be first to every loose ball",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "let them have the ball and hit them on the counter",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit back, absorb pressure and counter",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "press high and spread out",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend compactly on the right",
+            "z": {
+              "press": -1.0,
+              "flank": -1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep possession on the left side",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "be a bit more aggressive",
+            "z": {
+              "press": 0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "slightly deeper please",
+            "z": {
+              "press": -0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "play normally",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 1
+          },
+          {
+            "text": "whatever you think is best",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 1
+          },
+          {
+            "text": "make me a sandwich",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "asdfgh",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "all out attack, both of you go forward together",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "one of you stay back, the other go wide and forward",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          }
+        ]
+      },
+      "qwen2.5:7b-instruct": {
+        "dim_accuracy": 0.9375,
+        "phrase_accuracy": 0.8125,
+        "median_latency_s": 1.9655,
+        "llm_calls": 32,
+        "rows": [
+          {
+            "text": "press high",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "push up and attack",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "get forward and hunt the ball in their half",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "park the bus",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit deep and protect our goal",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend, we're winning",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't press, stay back",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "attack down the left",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "play on the right wing",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "stay on the top side of the pitch",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "use the bottom flank",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "go through the middle",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "spread out",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay wide apart so they can't mark both of us",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "stick together",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay close and support each other",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "hold possession",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "be first to every loose ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "let them have the ball and hit them on the counter",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit back, absorb pressure and counter",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "press high and spread out",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend compactly on the right",
+            "z": {
+              "press": -1.0,
+              "flank": -1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep possession on the left side",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "be a bit more aggressive",
+            "z": {
+              "press": 0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "slightly deeper please",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "play normally",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "whatever you think is best",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "make me a sandwich",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "asdfgh",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "all out attack, both of you go forward together",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "one of you stay back, the other go wide and forward",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          }
+        ]
+      },
+      "keywords+qwen2.5:7b-instruct": {
+        "dim_accuracy": 0.984375,
+        "phrase_accuracy": 0.9375,
+        "median_latency_s": 0.0,
+        "llm_calls": 7,
+        "rows": [
+          {
+            "text": "press high",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "push up and attack",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "get forward and hunt the ball in their half",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "park the bus",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit deep and protect our goal",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend, we're winning",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't press, stay back",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "attack down the left",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "play on the right wing",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay on the top side of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "use the bottom flank",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "go through the middle",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "spread out",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay wide apart so they can't mark both of us",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stick together",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay close and support each other",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "hold possession",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "be first to every loose ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "let them have the ball and hit them on the counter",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "sit back, absorb pressure and counter",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "press high and spread out",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend compactly on the right",
+            "z": {
+              "press": -1.0,
+              "flank": -1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep possession on the left side",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "be a bit more aggressive",
+            "z": {
+              "press": 0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "slightly deeper please",
+            "z": {
+              "press": -0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "play normally",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "whatever you think is best",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "make me a sandwich",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "asdfgh",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "all out attack, both of you go forward together",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "one of you stay back, the other go wide and forward",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          }
+        ]
+      }
+    },
+    "test": {
+      "keywords": {
+        "dim_accuracy": 0.8854166666666666,
+        "phrase_accuracy": 0.625,
+        "median_latency_s": 0.0,
+        "llm_calls": 0,
+        "rows": [
+          {
+            "text": "high pressing game",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "take the game to them",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          },
+          {
+            "text": "everyone back, protect the lead",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          },
+          {
+            "text": "drop off and stay compact",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          },
+          {
+            "text": "play down the left touchline",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "overload the right side",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "focus our play up top",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep it central",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "give each other more space",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          },
+          {
+            "text": "cover the whole width of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay tight as a pair",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't drift apart",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "dominate the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          },
+          {
+            "text": "win every 50/50",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          },
+          {
+            "text": "let them come at us and break fast",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 2
+          },
+          {
+            "text": "hang back and wait for their mistake",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 2
+          },
+          {
+            "text": "press them on the left and stay together",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "spread wide and keep the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "a little more attacking",
+            "z": {
+              "press": 0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "calm down, stop pressing",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "just have fun",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "what's the weather like",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend deep on the bottom side",
+            "z": {
+              "press": -1.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "go for the win, all forward",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          }
+        ]
+      },
+      "qwen2.5:3b-instruct": {
+        "dim_accuracy": 0.7916666666666666,
+        "phrase_accuracy": 0.375,
+        "median_latency_s": 1.029,
+        "llm_calls": 24,
+        "rows": [
+          {
+            "text": "high pressing game",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "take the game to them",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "everyone back, protect the lead",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "drop off and stay compact",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "play down the left touchline",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "overload the right side",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "focus our play up top",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "keep it central",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "give each other more space",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "cover the whole width of the pitch",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "stay tight as a pair",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't drift apart",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "dominate the ball",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "win every 50/50",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "let them come at us and break fast",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "hang back and wait for their mistake",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "press them on the left and stay together",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "spread wide and keep the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "a little more attacking",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "calm down, stop pressing",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "just have fun",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "what's the weather like",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend deep on the bottom side",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "go for the win, all forward",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          }
+        ]
+      },
+      "keywords+qwen2.5:3b-instruct": {
+        "dim_accuracy": 0.9270833333333334,
+        "phrase_accuracy": 0.75,
+        "median_latency_s": 0.0,
+        "llm_calls": 11,
+        "rows": [
+          {
+            "text": "high pressing game",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "take the game to them",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "everyone back, protect the lead",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "drop off and stay compact",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          },
+          {
+            "text": "play down the left touchline",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "overload the right side",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "focus our play up top",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep it central",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "give each other more space",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "cover the whole width of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay tight as a pair",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't drift apart",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "dominate the ball",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "win every 50/50",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "let them come at us and break fast",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "hang back and wait for their mistake",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "press them on the left and stay together",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "spread wide and keep the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "a little more attacking",
+            "z": {
+              "press": 0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "calm down, stop pressing",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "just have fun",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "what's the weather like",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend deep on the bottom side",
+            "z": {
+              "press": -1.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "go for the win, all forward",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          }
+        ]
+      },
+      "llama3.2:3b": {
+        "dim_accuracy": 0.6770833333333334,
+        "phrase_accuracy": 0.20833333333333334,
+        "median_latency_s": 0.8925000000000001,
+        "llm_calls": 24,
+        "rows": [
+          {
+            "text": "high pressing game",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "take the game to them",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "everyone back, protect the lead",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "drop off and stay compact",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "play down the left touchline",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "overload the right side",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 1
+          },
+          {
+            "text": "focus our play up top",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "keep it central",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "give each other more space",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "cover the whole width of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "stay tight as a pair",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't drift apart",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "dominate the ball",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "win every 50/50",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "let them come at us and break fast",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 0
+          },
+          {
+            "text": "hang back and wait for their mistake",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "press them on the left and stay together",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "spread wide and keep the ball",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "a little more attacking",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "calm down, stop pressing",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "just have fun",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 1
+          },
+          {
+            "text": "what's the weather like",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend deep on the bottom side",
+            "z": {
+              "press": -1.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "go for the win, all forward",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": 1.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 1
+          }
+        ]
+      },
+      "keywords+llama3.2:3b": {
+        "dim_accuracy": 0.8125,
+        "phrase_accuracy": 0.5833333333333334,
+        "median_latency_s": 0.0,
+        "llm_calls": 11,
+        "rows": [
+          {
+            "text": "high pressing game",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "take the game to them",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "everyone back, protect the lead",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "drop off and stay compact",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          },
+          {
+            "text": "play down the left touchline",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "overload the right side",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "focus our play up top",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep it central",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "give each other more space",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "cover the whole width of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay tight as a pair",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't drift apart",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "dominate the ball",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "win every 50/50",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "let them come at us and break fast",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 0
+          },
+          {
+            "text": "hang back and wait for their mistake",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "press them on the left and stay together",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "spread wide and keep the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "a little more attacking",
+            "z": {
+              "press": 0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "calm down, stop pressing",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "just have fun",
+            "z": {
+              "press": 1.0,
+              "flank": -1.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 1
+          },
+          {
+            "text": "what's the weather like",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend deep on the bottom side",
+            "z": {
+              "press": -1.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "go for the win, all forward",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": 1.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 1
+          }
+        ]
+      },
+      "qwen2.5:7b-instruct": {
+        "dim_accuracy": 0.875,
+        "phrase_accuracy": 0.625,
+        "median_latency_s": 1.9905,
+        "llm_calls": 24,
+        "rows": [
+          {
+            "text": "high pressing game",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "take the game to them",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "everyone back, protect the lead",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "drop off and stay compact",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "play down the left touchline",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "overload the right side",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "focus our play up top",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          },
+          {
+            "text": "keep it central",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "give each other more space",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "cover the whole width of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay tight as a pair",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't drift apart",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "dominate the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "win every 50/50",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "let them come at us and break fast",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "hang back and wait for their mistake",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "press them on the left and stay together",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "spread wide and keep the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "a little more attacking",
+            "z": {
+              "press": 0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "calm down, stop pressing",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "just have fun",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "what's the weather like",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend deep on the bottom side",
+            "z": {
+              "press": -1.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "go for the win, all forward",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          }
+        ]
+      },
+      "keywords+qwen2.5:7b-instruct": {
+        "dim_accuracy": 0.9270833333333334,
+        "phrase_accuracy": 0.75,
+        "median_latency_s": 0.0,
+        "llm_calls": 11,
+        "rows": [
+          {
+            "text": "high pressing game",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "take the game to them",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "everyone back, protect the lead",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "drop off and stay compact",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 3
+          },
+          {
+            "text": "play down the left touchline",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "overload the right side",
+            "z": {
+              "press": 0.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "focus our play up top",
+            "z": {
+              "press": 0.0,
+              "flank": 1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "keep it central",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "give each other more space",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "cover the whole width of the pitch",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "stay tight as a pair",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "don't drift apart",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "dominate the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "win every 50/50",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "let them come at us and break fast",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "hang back and wait for their mistake",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": -1.0
+            },
+            "source": "llm",
+            "correct_dims": 3
+          },
+          {
+            "text": "press them on the left and stay together",
+            "z": {
+              "press": 1.0,
+              "flank": 1.0,
+              "spread": -1.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "spread wide and keep the ball",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 1.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "a little more attacking",
+            "z": {
+              "press": 0.5,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "calm down, stop pressing",
+            "z": {
+              "press": -1.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "just have fun",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "what's the weather like",
+            "z": {
+              "press": 0.0,
+              "flank": 0.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "llm",
+            "correct_dims": 4
+          },
+          {
+            "text": "defend deep on the bottom side",
+            "z": {
+              "press": -1.0,
+              "flank": -1.0,
+              "spread": 0.0,
+              "possession": 0.0
+            },
+            "source": "keywords",
+            "correct_dims": 4
+          },
+          {
+            "text": "go for the win, all forward",
+            "z": {
+              "press": 1.0,
+              "flank": 0.0,
+              "spread": 1.0,
+              "possession": 1.0
+            },
+            "source": "llm",
+            "correct_dims": 2
+          }
+        ]
+      }
+    }
+  }
+}

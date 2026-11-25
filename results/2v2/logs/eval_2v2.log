@@ -1,0 +1,16 @@
+       2v2_pool  vs random 239/753/8  vs chase 352/503/145  vs mixed 290/583/127  ad-hoc partner 352/360/288  passes/game 0.23  swarm 0.031  depth gap 6.9
+ 2v2_pool_seed1  vs random 654/283/63  vs chase 578/192/230  vs mixed 478/273/249  ad-hoc partner 324/372/304  passes/game 0.99  swarm 0.057  depth gap 5.1
+     2v2_latest  vs random 75/907/18  vs chase 134/184/682  vs mixed 0/1000/0  ad-hoc partner 208/226/566  passes/game 0.11  swarm 0.014  depth gap 7.0
+       2v2_cond  vs random 769/229/2  vs chase 399/558/43  vs mixed 161/795/44  ad-hoc partner 420/431/149  passes/game 0.41  swarm 0.018  depth gap 16.9
+   2v2_cond_w10  vs random 324/592/84  vs chase 89/112/799  vs mixed 121/262/617  ad-hoc partner 202/257/541  passes/game 0.12  swarm 0.000  depth gap 41.9
+     chase team  passes/game 0.30  swarm 0.003  depth gap 31.1
+
+head-to-head score (row vs column):
+                         2v2_pool  2v2_pool_seed1      2v2_latest        2v2_cond    2v2_cond_w10
+       2v2_pool              0.50            0.43            0.51            0.46            0.71
+ 2v2_pool_seed1              0.57            0.50            0.60            0.39            0.77
+     2v2_latest              0.49            0.40            0.50            0.24            0.50
+       2v2_cond              0.54            0.61            0.76            0.50            0.78
+   2v2_cond_w10              0.29            0.23            0.50            0.22            0.50
+
+wrote results/2v2/eval.json and baselines.png

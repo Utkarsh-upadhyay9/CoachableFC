@@ -1,0 +1,21 @@
+{
+  "chase_vs_chase_4000": {
+    "side0_win": 0.33675,
+    "side1_win": 0.352,
+    "draw": 0.31125
+  },
+  "random_vs_random_1000": {
+    "side0_win": 0.101,
+    "side1_win": 0.099,
+    "draw": 0.8
+  },
+  "chase_vs_random_1000": {
+    "win": 0.898,
+    "draw": 0.075,
+    "loss": 0.027
+  },
+  "env_steps_per_s": {
+    "1v1": 1257287.8804919834,
+    "2v2": 447253.31752700824
+  }
+}

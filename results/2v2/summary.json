@@ -1,0 +1,47 @@
+{
+  "pool": {
+    "final_elo": 130.3,
+    "peak_elo": 139.1,
+    "peak_at": "45.7M",
+    "chase_elo": 101.8,
+    "later_beats_earlier": 0.5303030303030303,
+    "final_selfplay_draw": 0.9095100150446562,
+    "draw_lock_step": null
+  },
+  "pool_seed1": {
+    "final_elo": 287.3,
+    "peak_elo": 287.3,
+    "peak_at": "50.0M",
+    "chase_elo": 164.0,
+    "later_beats_earlier": 0.9242424242424242,
+    "final_selfplay_draw": 0.2936098585713799,
+    "draw_lock_step": null
+  },
+  "latest": {
+    "final_elo": 131.0,
+    "peak_elo": 245.3,
+    "peak_at": "22.9M",
+    "chase_elo": 204.1,
+    "later_beats_earlier": 0.7424242424242424,
+    "final_selfplay_draw": 1.0,
+    "draw_lock_step": 42270720.0
+  },
+  "cond": {
+    "final_elo": 348.0,
+    "peak_elo": 348.0,
+    "peak_at": "50.0M",
+    "chase_elo": 219.1,
+    "later_beats_earlier": 0.9696969696969697,
+    "final_selfplay_draw": 0.766463759032386,
+    "draw_lock_step": null
+  },
+  "cond_w10": {
+    "final_elo": 60.7,
+    "peak_elo": 104.8,
+    "peak_at": "9.2M",
+    "chase_elo": 395.1,
+    "later_beats_earlier": 0.5454545454545454,
+    "final_selfplay_draw": 0.7343392346473326,
+    "draw_lock_step": null
+  }
+}
