@@ -1,10 +1,15 @@
 {
   "default": "pro",
+  "default_2v2": "team_pro",
+  "teammate": "team_coach",
   "models": [
     {"id": "pro", "label": "Pro (30M steps)", "short": "Pro", "note": "The final agent: 30M steps of self-play with an opponent pool. Beats the chase bot about 80% of the time."},
     {"id": "amateur", "label": "Amateur (4.9M steps)", "short": "Amateur", "note": "An earlier checkpoint from the same run, 4.9M steps in."},
     {"id": "rookie", "label": "Rookie (0.8M steps)", "short": "Rookie", "note": "A very early checkpoint, 0.8M steps in."},
     {"id": "sparse", "label": "Sparse-reward agent (30M)", "short": "Sparse", "note": "Trained on goals alone, with no shaping bonus."},
-    {"id": "naive", "label": "Naive self-play, collapsed (30M)", "short": "Naive", "note": "Trained against only its latest copy. It drifted into passive play and largely stops playing the ball."}
+    {"id": "naive", "label": "Naive self-play, collapsed (30M)", "short": "Naive", "note": "Trained against only its latest copy. It drifted into passive play and largely stops playing the ball."},
+    {"id": "team_pro", "format": "2v2", "label": "2v2 Pro team (50M steps)", "short": "Pro team", "note": "Two players sharing one network, trained with an opponent pool for 50M steps. Beats the chase team 58% of the time."},
+    {"id": "team_coach", "format": "2v2", "label": "Coached team (50M, follows tactics)", "short": "Coached", "note": "The same recipe plus a tactic input, and the strongest 2v2 network in head-to-head play. It also plays your teammate."},
+    {"id": "team_naive", "format": "2v2", "label": "2v2 naive self-play (50M)", "short": "Naive team", "note": "Trained against only its latest copy. Its self-play games all end 0–0."}
   ]
 }

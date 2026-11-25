@@ -847,7 +847,7 @@ function setupCoach() {
       if (!res.ok) throw new Error(`coach answered ${res.status}`);
       const out = await res.json();
       setTactic(TACTICS.map((t) => out.z[t.id]), "");
-      const how = out.source === "llm" ? `${out.model}, ${out.latency_s.toFixed(1)} s` : "keyword fallback";
+      const how = out.source === "llm" ? `${out.model}, ${out.latency_s.toFixed(1)} s` : "matched keywords";
       say(`Coach heard "${text}" (${how}).`);
     } catch (err) {
       say(`The coach did not answer: ${err.message}. Use a preset instead.`);
