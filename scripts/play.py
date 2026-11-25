@@ -8,7 +8,7 @@ Examples:
     python scripts/play.py --agent models/final.pt
     python scripts/play.py --agent models/final.pt --fps 15 --goals 3
     python scripts/play.py --watch --agent models/final.pt --opponent chase
-    python scripts/play.py --team --agent models/2v2/pool.pt --mate models/2v2/coach.pt
+    python scripts/play.py --team --agent models/2v2/pool_seed1.pt --mate models/2v2/cond.pt
 """
 
 from __future__ import annotations
@@ -63,7 +63,7 @@ def main():
     ap.add_argument("--opponent", default=None, help="second player for --watch mode")
     ap.add_argument("--watch", action="store_true", help="agent vs --opponent, no human")
     ap.add_argument("--team", action="store_true", help="2v2: you and --mate against two copies of --agent")
-    ap.add_argument("--mate", default="models/2v2/coach.pt", help="your teammate in --team mode")
+    ap.add_argument("--mate", default="models/2v2/cond.pt", help="your teammate in --team mode")
     ap.add_argument("--side", type=int, default=0, choices=[0, 1], help="0 = you are red (left)")
     ap.add_argument("--fps", type=int, default=30, help="simulation steps per second (lower = easier)")
     ap.add_argument("--goals", type=int, default=5, help="first to this many goals wins")

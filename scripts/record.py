@@ -5,7 +5,7 @@ A 2v2 checkpoint makes the match 2v2 (use --players 2 for bots only). With
 
 Examples:
     python scripts/record.py models/final.pt chase --games 3 --out media/final_vs_chase.gif
-    python scripts/record.py models/2v2/coach.pt chase --tactic press=1 --out media/2v2_press.gif
+    python scripts/record.py models/2v2/cond.pt chase --tactic press=1 --out media/2v2_press.gif
 """
 
 from __future__ import annotations

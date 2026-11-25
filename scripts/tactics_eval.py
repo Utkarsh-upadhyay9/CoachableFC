@@ -25,6 +25,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
+import torch  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -73,6 +74,7 @@ def main():
     net, _ = load_checkpoint(Path(args.run_dir) / "final.pt")
 
     def measure(z, seed=31):
+        torch.manual_seed(seed)  # same z must give the same games, so coaches differ only by their z
         return team_stats(PolicyPlayer(net, z=z), chase, args.games, seed=seed, config=c)
 
     # 1. sweep
