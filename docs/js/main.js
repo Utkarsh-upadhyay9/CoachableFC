@@ -1,5 +1,23 @@
-import { CFG, Game, MOVE_DIRS, N_ACTIONS, N_MOVES } from "./game.js";
-import { ChaseBot, Policy, RandomBot } from "./policy.js";
+import { CFG, Game, MOVE_DIRS, N_ACTIONS, N_MOVES, TEAM_CFG } from "./game.js";
+import { ChaseBot, Policy, RandomBot, TeamChaseBot } from "./policy.js";
+
+// Tactic dimensions, in the order the conditioned network expects (football/tactics.py).
+const TACTICS = [
+  { id: "press", label: "Press", lo: "deep", hi: "high" },
+  { id: "flank", label: "Flank", lo: "right", hi: "left" },
+  { id: "spread", label: "Spread", lo: "together", hi: "apart" },
+  { id: "possession", label: "Ball", lo: "let them", hi: "keep it" },
+];
+const PRESETS = [
+  { label: "Neutral", z: [0, 0, 0, 0] },
+  { label: "Press high", z: [1, 0, 0, 0] },
+  { label: "Park the bus", z: [-1, 0, 0, 0] },
+  { label: "Left wing", z: [0, 1, 0, 0] },
+  { label: "Right wing", z: [0, -1, 0, 0] },
+  { label: "Spread out", z: [0, 0, 1, 0] },
+  { label: "Stick together", z: [0, 0, -1, 0] },
+  { label: "Keep the ball", z: [0, 0, 0, 1] },
+];
 
 const $ = (id) => document.getElementById(id);
 const canvas = $("pitch");
@@ -30,10 +48,14 @@ const state = {
   game: new Game(),
   prev: null, // positions before the latest step, for smooth drawing between steps
   opponents: {},
-  info: {}, // id -> { label, short, note }
-  agent: null, // right player (blue)
-  left: null, // left player (red); null means the human
+  info: {}, // id -> { label, short, note, format, tactics }
+  format: "1v1",
+  agent: null, // right team (blue)
+  left: null, // left player or team (red); null means the human
+  mate: null, // 2v2: the human's tactic-conditioned AI teammate
+  z: new Float32Array(TACTICS.length), // the red team's current tactic
   names: ["You", "Pro"],
+  tags: ["You", "Pro"],
   score: [0, 0],
   firstTo: 5,
   fps: 30,
@@ -279,22 +301,35 @@ function agentAct(obs) {
   return action;
 }
 
+// Red team in 2v2: the human (or the watched player) in slot 0, the coached teammate in slot 1.
+function teamActions(g) {
+  const z = state.z;
+  const red0 = state.left ? state.left.act(g.observe(0), state.greedy, Math.random, z) : humanAction();
+  const red1 = (state.left || state.mate).act(g.observe(1), state.greedy, Math.random, z);
+  return [red0, red1, state.agent.act(g.observe(2), state.greedy), state.agent.act(g.observe(3), state.greedy)];
+}
+
 function tick() {
   const g = state.game;
   snapshot();
-  const a0 = state.left ? state.left.act(g.observe(0), state.greedy) : humanAction();
-  const a1 = agentAct(g.observe(1));
-  const r = g.step([a0, a1]);
+  let r;
+  if (g.P === 1) {
+    const a0 = state.left ? state.left.act(g.observe(0), state.greedy) : humanAction();
+    const a1 = agentAct(g.observe(1));
+    r = g.step([a0, a1]);
+  } else {
+    r = g.step(teamActions(g));
+  }
 
   const speed = Math.hypot(g.ballVel[0], g.ballVel[1]);
   state.spin += speed * 0.14;
   state.trail.push([g.ball[0], g.ball[1]]);
   if (state.trail.length > 12) state.trail.shift();
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < g.M; i++) {
     if (g.cooldown[i] === CFG.kick_cooldown) state.pulses.push({ i, x: g.pos[i][0], y: g.pos[i][1], born: performance.now() });
   }
   setClock();
-  paintBrain();
+  if (g.P === 1) paintBrain();
 
   if (!r.done) return;
   if (r.goal !== 0) {
@@ -327,7 +362,10 @@ function startMatch() {
   $("goal-banner").classList.remove("show");
   updateScore();
   setPauseButton();
-  say(state.watch ? "Watching two players." : "Kick off. You are red and attack to the right.");
+  const team = state.format === "2v2";
+  say(state.watch ? `Watching two ${team ? "teams" : "players"}.`
+    : team ? "Kick off. You and your AI teammate are red and attack to the right."
+    : "Kick off. You are red and attack to the right.");
   focusPitch();
 }
 
@@ -375,6 +413,7 @@ function setPauseButton() {
 }
 
 // -------------------------------------------------------------------- records
+const recordKey = () => `record:${state.format === "2v2" ? "2v2:" : ""}${$("opponent").value}`;
 function readRecord(key) {
   try {
     return JSON.parse(localStorage.getItem(key) || '{"w":0,"l":0}');
@@ -383,7 +422,7 @@ function readRecord(key) {
   }
 }
 function recordResult(won) {
-  const key = `record:${$("opponent").value}`;
+  const key = recordKey();
   const rec = readRecord(key);
   if (won) rec.w += 1; else rec.l += 1;
   try { localStorage.setItem(key, JSON.stringify(rec)); } catch { /* storage can be blocked; the session still works */ }
@@ -392,7 +431,7 @@ function recordResult(won) {
 function updateRecord() {
   const el = $("record");
   if (state.watch) { el.textContent = ""; return; }
-  const rec = readRecord(`record:${$("opponent").value}`);
+  const rec = readRecord(recordKey());
   el.textContent = `Your record against ${state.names[1]}: ${rec.w} won, ${rec.l} lost.`;
 }
 
@@ -424,9 +463,12 @@ function showOverlay(kind) {
   const t = $("ov-title"), s = $("ov-sub"), p = $("ov-primary"), q = $("ov-secondary"), h = $("ov-hint");
   q.hidden = true;
   if (kind === "ready") {
-    t.textContent = state.watch ? "Watch two players" : "Beat the agent that taught itself football";
+    const team = state.format === "2v2";
+    t.textContent = state.watch ? `Watch two ${team ? "teams" : "players"}`
+      : team ? "Play 2v2 with a teammate you can coach" : "Beat the agent that taught itself football";
     s.textContent = state.watch
       ? `${state.names[0]} on the left, ${state.names[1]} on the right. First to ${state.firstTo}.`
+      : team ? `You and your AI teammate are red and attack to the right. Tell it how to play in the coach panel. First to ${state.firstTo}.`
       : `You are red and attack to the right. First to ${state.firstTo} goals wins.`;
     p.textContent = state.watch ? "Start match" : "Kick off";
     h.textContent = "Or press Space.";
@@ -441,7 +483,7 @@ function showOverlay(kind) {
     t.textContent = state.watch
       ? `${leftWon ? state.names[0] : state.names[1]} wins ${Math.max(a, b)} to ${Math.min(a, b)}`
       : leftWon ? `You win ${a} to ${b}` : `${state.names[1]} wins ${b} to ${a}`;
-    const rec = readRecord(`record:${$("opponent").value}`);
+    const rec = readRecord(recordKey());
     s.textContent = state.watch ? "Run it again, or change the players below." : `Your record against ${state.names[1]}: ${rec.w} won, ${rec.l} lost.`;
     p.textContent = "Play again";
     h.textContent = "Or press Space.";
@@ -495,7 +537,7 @@ function draw(now) {
   const a = state.phase === "playing" && state.prev ? Math.min(1, state.acc / (1000 / state.fps)) : 1;
   const lerp = (p0, p1) => p0 + (p1 - p0) * a;
   const at = (cur, old) => (state.prev ? [lerp(old[0], cur[0]), lerp(old[1], cur[1])] : cur);
-  const players = [0, 1].map((i) => at(g.pos[i], state.prev ? state.prev.pos[i] : g.pos[i]));
+  const players = g.pos.map((p, i) => at(p, state.prev ? state.prev.pos[i] : p));
   const ball = at(g.ball, state.prev ? state.prev.ball : g.ball);
 
   // ball trail
@@ -523,11 +565,11 @@ function draw(now) {
     }
   }
 
-  for (let i = 0; i < 2; i++) drawPlayer(i, players[i], g);
+  for (let i = 0; i < g.M; i++) drawPlayer(i, players[i], g);
   drawBall(ball);
 
   // name tags above the players so you always know who is who
-  for (let i = 0; i < 2; i++) drawTag(i, players[i]);
+  for (let i = 0; i < g.M; i++) if (state.tags[i]) drawTag(state.tags[i], players[i]);
 
   if (state.phase === "paused" || state.phase === "over") {
     ctx.fillStyle = "rgba(10,28,18,0.0)";
@@ -546,7 +588,7 @@ function drawPlayer(i, [px, py], g) {
 
   ctx.beginPath();
   ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-  ctx.fillStyle = COLORS.team[i];
+  ctx.fillStyle = COLORS.team[g.teamOf(i)];
   ctx.fill();
   ctx.beginPath();
   ctx.arc(cx - r * 0.25, cy - r * 0.3, r * 0.55, 0, 2 * Math.PI);
@@ -610,8 +652,7 @@ function drawBall([bx, by]) {
   ctx.restore();
 }
 
-function drawTag(i, [px, py]) {
-  const label = i === 0 ? state.names[0] : state.names[1];
+function drawTag(label, [px, py]) {
   ctx.font = '700 12px "Hanken Grotesk", system-ui, sans-serif';
   const w = ctx.measureText(label).width + 14;
   const x = X(px) - w / 2;
@@ -647,25 +688,64 @@ function frame(now) {
 
 // ------------------------------------------------------------------- settings
 function playerFor(id) {
-  if (id === "chase") return new ChaseBot();
+  const team = state.format === "2v2";
+  if (id === "chase") return team ? new TeamChaseBot(TEAM_CFG) : new ChaseBot();
   if (id === "random") return new RandomBot();
   return state.opponents[id];
 }
 const shortName = (id) => (id === "chase" ? "Chase bot" : id === "random" ? "Random" : state.info[id]?.short || id);
 const noteFor = (id) =>
-  id === "chase" ? "Scripted rules: run behind the ball, line up with the goal, then kick."
+  id === "chase"
+    ? state.format === "2v2"
+      ? "Scripted rules: whoever is nearer the ball chases it and shoots, the other guards the goal."
+      : "Scripted rules: run behind the ball, line up with the goal, then kick."
   : id === "random" ? "Picks a random action every step."
   : state.info[id]?.note || "";
 
+// Fill the player pickers with the agents trained for the current format.
+function fillPickers() {
+  const def = state.format === "2v2" ? state.defaults.team : state.defaults.solo;
+  for (const s of [$("opponent"), $("left-player")]) {
+    const keep = s.value;
+    s.length = 0;
+    for (const [id, m] of Object.entries(state.info)) {
+      if ((m.format || "1v1") === state.format && !m.hidden) s.add(new Option(m.label, id));
+    }
+    s.add(new Option(state.format === "2v2" ? "Scripted chase team" : "Scripted chase bot", "chase"));
+    s.add(new Option(state.format === "2v2" ? "Random team" : "Random player", "random"));
+    const ok = [...s.options].some((o) => o.value === keep);
+    s.value = ok ? keep : s.id === "opponent" ? def : "chase";
+  }
+}
+
 function applySettings() {
+  const format = $("format").value;
+  if (format !== state.format || !state.game) {
+    state.format = format;
+    state.game = new Game(format === "2v2" ? TEAM_CFG : CFG);
+    fillPickers();
+  }
+  const team = format === "2v2";
   const oppId = $("opponent").value;
   state.agent = playerFor(oppId);
   state.watch = $("mode").value === "watch";
   state.left = state.watch ? playerFor($("left-player").value) : null;
+  state.mate = team ? state.opponents[state.defaults.mate] : null;
   state.greedy = $("greedy").checked;
-  state.names = [state.watch ? shortName($("left-player").value) : "You", shortName(oppId)];
+  const opp = shortName(oppId);
+  state.names = [state.watch ? shortName($("left-player").value) : team ? "You + AI" : "You", opp];
+  state.tags = team ? [state.watch ? "" : "You", state.watch ? "" : "AI mate", "", ""] : [state.watch ? state.names[0] : "You", opp];
+  $("mode").options[0].text = team ? "You + AI mate vs agents" : "You vs agent";
+  $("mode").options[1].text = team ? "Watch two teams" : "Watch two players";
   $("left-player-wrap").hidden = !state.watch;
+  $("left-player-wrap").querySelector("label").textContent = team ? "Left team (red)" : "Left player (red)";
+  $("opponent").previousElementSibling.textContent = team ? "Opponent team" : "Opponent";
   $("opponent-note").textContent = noteFor(oppId);
+  $("brain").hidden = team;
+  $("coach").hidden = !team;
+  canvas.setAttribute("aria-label", team
+    ? "Football pitch, 2v2. You and your AI teammate are red and attack to the right. Move with W A S D or the arrow keys, kick with Space."
+    : "Football pitch. You are red and attack to the right. Move with W A S D or the arrow keys, kick with Space.");
   brain.live = false;
   brain.moves.fill(0);
   brain.kick = brain.conf = 0;
@@ -685,7 +765,7 @@ $("speed").addEventListener("input", (e) => {
   $("speed-val").textContent = `${+(state.fps / 30).toFixed(2)}×`;
 });
 $("speed").addEventListener("pointerup", focusPitch);
-["opponent", "mode", "left-player", "greedy"].forEach((id) => $(id).addEventListener("change", onSettingsChange));
+["format", "opponent", "mode", "left-player", "greedy"].forEach((id) => $(id).addEventListener("change", onSettingsChange));
 document.querySelectorAll("#first-to button").forEach((btn) =>
   btn.addEventListener("click", () => {
     state.firstTo = Number(btn.dataset.n);
@@ -712,22 +792,84 @@ if (document.fullscreenEnabled && fsTarget.requestFullscreen) {
   });
 }
 
+// ---------------------------------------------------------------------- coach
+// Presets work anywhere. Typed tactics need scripts/serve_demo.py, which runs the LLM coach locally.
+function setTactic(z, label) {
+  state.z = Float32Array.from(z);
+  document.querySelectorAll("#presets button").forEach((b) => b.setAttribute("aria-pressed", String(b.textContent === label)));
+  paintTactic();
+}
+
+function paintTactic() {
+  TACTICS.forEach((t, i) => {
+    const v = state.z[i];
+    const bar = $(`tac-${t.id}`);
+    bar.style.left = `${50 + Math.min(v, 0) * 50}%`;
+    bar.style.width = `${Math.abs(v) * 50}%`;
+    $(`tac-${t.id}-val`).textContent = v === 0 ? "0" : `${v > 0 ? "+" : ""}${v.toFixed(1)}`;
+  });
+}
+
+function setupCoach() {
+  $("tactic-bars").innerHTML = TACTICS.map((t) => `
+    <div>
+      <dt>${t.label}</dt>
+      <dd><span class="meter bi"><i id="tac-${t.id}"></i></span><output id="tac-${t.id}-val">0</output></dd>
+      <span class="ends" aria-hidden="true"><span>${t.lo}</span><span>${t.hi}</span></span>
+    </div>`).join("");
+  for (const p of PRESETS) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = p.label;
+    b.addEventListener("click", () => {
+      setTactic(p.z, p.label);
+      say(`Tactic for your teammate: ${p.label.toLowerCase()}.`);
+    });
+    $("presets").append(b);
+  }
+  setTactic(PRESETS[0].z, PRESETS[0].label);
+  $("coach-note").textContent = "Typing a tactic needs the local coach server (python scripts/serve_demo.py). The presets work anywhere.";
+
+  fetch("coach/health").then((r) => (r.ok ? r.json() : null)).then((h) => {
+    if (!h) return;
+    $("coach-form").hidden = false;
+    $("coach-note").textContent = `Coach model: ${h.model}, running on this machine.`;
+  }).catch(() => {});
+
+  $("coach-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = $("coach-text").value.trim();
+    if (!text) return;
+    $("coach-send").disabled = true;
+    say("Asking the coach…");
+    try {
+      const res = await fetch("coach", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
+      if (!res.ok) throw new Error(`coach answered ${res.status}`);
+      const out = await res.json();
+      setTactic(TACTICS.map((t) => out.z[t.id]), "");
+      const how = out.source === "llm" ? `${out.model}, ${out.latency_s.toFixed(1)} s` : "keyword fallback";
+      say(`Coach heard "${text}" (${how}).`);
+    } catch (err) {
+      say(`The coach did not answer: ${err.message}. Use a preset instead.`);
+    } finally {
+      $("coach-send").disabled = false;
+      focusPitch();
+    }
+  });
+}
+
 // ----------------------------------------------------------------------- init
 async function init() {
   const manifest = await (await fetch("models/manifest.json")).json();
-  const selects = [$("opponent"), $("left-player")];
   const policies = await Promise.all(manifest.models.map((m) => Policy.load(`models/${m.id}.json`)));
   manifest.models.forEach((m, i) => {
     state.opponents[m.id] = policies[i];
     state.info[m.id] = m;
-    for (const s of selects) s.add(new Option(m.label, m.id));
   });
-  for (const s of selects) {
-    s.add(new Option("Scripted chase bot", "chase"));
-    s.add(new Option("Random player", "random"));
-  }
-  $("opponent").value = manifest.default;
-  $("left-player").value = "chase";
+  state.defaults = { solo: manifest.default, team: manifest.default_2v2, mate: manifest.teammate };
+  state.format = "";
+  if (!state.defaults.mate) $("format").disabled = true;
+  setupCoach();
   resize();
   applySettings();
   resetToReady();

@@ -243,6 +243,21 @@ button.quiet:hover:not(:disabled) { background: rgba(255,255,255,0.14); }
 
 .record { margin: 0; color: var(--ink-soft); font-weight: 600; font-size: 0.9375rem; }
 
+/* coaching the 2v2 teammate */
+.coach-say { display: flex; gap: 8px; margin: 12px 0 10px; }
+.coach-say input {
+  flex: 1; min-width: 0; font: inherit; font-size: 0.9375rem; padding: 8px 12px;
+  background: var(--surface); border: 1.5px solid var(--ink); border-radius: 6px; color: var(--ink);
+}
+.presets { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
+.presets button { padding: 6px 12px; font-size: 0.875rem; }
+.presets button[aria-pressed="true"] { background: var(--card); border-color: var(--card); }
+.meter.bi { position: relative; overflow: visible; }
+.meter.bi::after { content: ""; position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1.5px; background: var(--ink); }
+.meter.bi i { position: absolute; top: 0; height: 100%; transform: none; background: var(--red); border-radius: 5px; transition: left 180ms, width 180ms; }
+.tactic .ends { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); grid-column: 2; margin-top: -6px; }
+@media (prefers-reduced-motion: reduce) { .meter.bi i { transition: none; } }
+
 /* ------------------------------------------------------------------- deck */
 .deck {
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 22px; align-items: start;

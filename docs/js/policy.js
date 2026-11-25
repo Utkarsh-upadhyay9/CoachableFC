@@ -1,4 +1,5 @@
 // Forward pass of the exported actor network (Linear -> tanh -> Linear -> tanh -> Linear).
+// A tactic-conditioned network takes a tactic vector z after the game observation (zeros if omitted).
 
 import { CFG, MOVE_DIRS, N_ACTIONS, N_MOVES } from "./game.js";
 
@@ -9,6 +10,7 @@ export class Policy {
       W: l.W.map((row) => Float32Array.from(row)),
       b: Float32Array.from(l.b),
     }));
+    this.inDim = this.layers[0].W[0].length;
   }
 
   static async load(url) {
@@ -17,8 +19,13 @@ export class Policy {
     return new Policy(await res.json());
   }
 
-  logits(obs) {
+  logits(obs, z = null) {
     let x = obs;
+    if (this.inDim > obs.length) {
+      x = new Float32Array(this.inDim);
+      x.set(obs);
+      if (z) x.set(z.slice(0, this.inDim - obs.length), obs.length);
+    }
     this.layers.forEach((layer, k) => {
       const out = new Float32Array(layer.b.length);
       for (let i = 0; i < out.length; i++) {
@@ -33,8 +40,8 @@ export class Policy {
   }
 
   // Softmax over the 18 actions: what the agent would pick, and how likely each action is.
-  probs(obs) {
-    const z = this.logits(obs);
+  probs(obs, tactic = null) {
+    const z = this.logits(obs, tactic);
     let max = -Infinity;
     for (let i = 0; i < z.length; i++) if (z[i] > max) max = z[i];
     const p = new Float64Array(z.length);
@@ -44,8 +51,8 @@ export class Policy {
     return p;
   }
 
-  act(obs, greedy = false, rng = Math.random) {
-    const z = this.logits(obs);
+  act(obs, greedy = false, rng = Math.random, tactic = null) {
+    const z = this.logits(obs, tactic);
     let best = 0;
     for (let i = 1; i < z.length; i++) if (z[i] > z[best]) best = i;
     if (greedy) return best;
@@ -99,6 +106,31 @@ export class ChaseBot {
     if (distTarget < 0.5 && !linedUp) move = 0;
     const kick = distBall <= c.kick_range && linedUp;
     return move + (kick ? N_MOVES : 0);
+  }
+}
+
+// Port of football/bots.py TeamChaseBot (2v2 observations).
+export class TeamChaseBot extends ChaseBot {
+  act(obs) {
+    const c = this.cfg;
+    const hl = 0.5 * c.field_l, hh = 0.5 * c.field_h;
+    const me = [obs[0] * hl, obs[1] * hh];
+    const mate = [obs[16] * hl, obs[17] * hh];
+    const ball = [obs[8] * hl, obs[9] * hh];
+    const dMe = Math.hypot(ball[0] - me[0], ball[1] - me[1]);
+    if (dMe <= Math.hypot(ball[0] - mate[0], ball[1] - mate[1])) return super.act(obs);
+
+    const gx = -hl;
+    const spot = [Math.max(gx + 0.3 * (ball[0] - gx), gx + 6.0), 0.3 * ball[1]];
+    const tx = spot[0] - me[0], ty = spot[1] - me[1];
+    let move = 1, best = -Infinity;
+    for (let m = 1; m < N_MOVES; m++) {
+      const s = MOVE_DIRS[m][0] * tx + MOVE_DIRS[m][1] * ty;
+      if (s > best) { best = s; move = m; }
+    }
+    if (Math.hypot(tx, ty) < 1.0) move = 0;
+    const clear = dMe <= c.kick_range && ball[0] > me[0];
+    return move + (clear ? N_MOVES : 0);
   }
 }
 

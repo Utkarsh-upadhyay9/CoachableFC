@@ -111,10 +111,30 @@
           <p class="note brain-off" id="brain-off">This opponent follows fixed rules, so there are no learned odds to show. Pick one of the trained agents to see them.</p>
         </section>
 
+        <section class="coach" id="coach" aria-labelledby="coach-h" hidden>
+          <h2 id="coach-h">Coach your teammate</h2>
+          <p class="note">Your red teammate was trained to follow a tactic. Pick one, or type your own and a small language model running on this laptop turns it into numbers.</p>
+          <form class="coach-say" id="coach-form" hidden>
+            <label class="sr-only" for="coach-text">Tactic for your teammate</label>
+            <input id="coach-text" type="text" maxlength="200" placeholder="e.g. press high on the left" autocomplete="off" />
+            <button type="submit" id="coach-send">Send</button>
+          </form>
+          <div class="presets" id="presets" role="group" aria-label="Preset tactics"></div>
+          <dl class="meters tactic" id="tactic-bars"></dl>
+          <p class="note" id="coach-note"></p>
+        </section>
+
         <p class="record" id="record"></p>
       </div>
 
       <form class="deck" id="deck" aria-label="Match settings" onsubmit="return false">
+        <div class="field">
+          <label for="format">Format</label>
+          <select id="format">
+            <option value="1v1">1v1</option>
+            <option value="2v2">2v2</option>
+          </select>
+        </div>
         <div class="field opp">
           <label for="opponent">Opponent</label>
           <select id="opponent"></select>
