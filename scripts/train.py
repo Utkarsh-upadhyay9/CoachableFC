@@ -1,9 +1,11 @@
-"""Train a 1v1 agent with self-play PPO.
+"""Train a 1v1 or 2v2 agent with self-play PPO.
 
 Examples:
     python scripts/train.py --name main
     python scripts/train.py --name sparse --sparse
     python scripts/train.py --name latest --opponents latest
+    python scripts/train.py --name 2v2_pool --players 2
+    python scripts/train.py --name 2v2_cond --players 2 --tactics
 """
 
 from __future__ import annotations
@@ -16,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from football.ppo import PPOConfig  # noqa: E402
 from football.selfplay import SelfPlayTrainer, TrainConfig  # noqa: E402
+from football.tactics import TACTIC_W  # noqa: E402
 
 
 def main():
@@ -25,6 +28,9 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--n-envs", type=int, default=64)
     ap.add_argument("--n-steps", type=int, default=128)
+    ap.add_argument("--players", type=int, choices=[1, 2], default=1, help="players per team")
+    ap.add_argument("--tactics", action="store_true", help="condition on sampled tactic vectors (2v2)")
+    ap.add_argument("--tactic-w", type=float, default=TACTIC_W)
     ap.add_argument("--opponents", choices=["pool", "latest"], default="pool")
     ap.add_argument("--sparse", action="store_true", help="disable reward shaping")
     ap.add_argument("--shaping-end-frac", type=float, default=0.5)
@@ -43,6 +49,9 @@ def main():
         seed=args.seed,
         n_envs=args.n_envs,
         n_steps=args.n_steps,
+        players_per_team=args.players,
+        tactics=args.tactics,
+        tactic_w=args.tactic_w,
         opponent_mode=args.opponents,
         shaping=not args.sparse,
         shaping_end_frac=args.shaping_end_frac,

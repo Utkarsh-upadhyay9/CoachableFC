@@ -73,7 +73,38 @@ class ChaseBot:
         return move + N_MOVES * kick.astype(np.int64)
 
 
-BOTS = {"random": RandomBot, "chase": ChaseBot}
+class TeamChaseBot(ChaseBot):
+    """2v2 chase team: whoever is nearer the ball plays `ChaseBot`, the other defends.
+
+    The defender holds a spot 30% of the way from its own goal to the ball and
+    clears the ball forward when it comes within reach.
+    """
+
+    name = "chase"
+
+    def __call__(self, obs: np.ndarray) -> np.ndarray:
+        c = self.cfg
+        act = super().__call__(obs)
+        scale = np.array([0.5 * c.field_l, 0.5 * c.field_h])
+        me = obs[:, 0:2] * scale
+        mate = obs[:, 16:18] * scale
+        ball = obs[:, 8:10] * scale
+        defend = np.linalg.norm(ball - me, axis=1) > np.linalg.norm(ball - mate, axis=1)
+        if not defend.any():
+            return act
+
+        goal = np.array([-0.5 * c.field_l, 0.0])
+        spot = goal + 0.3 * (ball - goal)
+        spot[:, 0] = np.maximum(spot[:, 0], goal[0] + 6.0)
+        to_spot = spot - me
+        move = np.argmax(to_spot @ MOVE_DIRS[1:].T, axis=1) + 1
+        move[np.linalg.norm(to_spot, axis=1) < 1.0] = 0
+        clear = (np.linalg.norm(ball - me, axis=1) <= c.kick_range) & (ball[:, 0] > me[:, 0])
+        guard = move + N_MOVES * clear.astype(np.int64)
+        return np.where(defend, guard, act)
+
+
+BOTS = {"random": RandomBot, "chase": ChaseBot, "team_chase": TeamChaseBot}
 
 
 def make_bot(name: str, **kwargs):

@@ -19,8 +19,9 @@ import numpy as np  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from football.bots import ChaseBot, RandomBot  # noqa: E402
+from football.bots import RandomBot  # noqa: E402
 from football.evaluate import crossplay, fit_elo  # noqa: E402
+from football.players import chase_for, game_config  # noqa: E402
 from football.policy import load_checkpoint, PolicyPlayer  # noqa: E402
 
 
@@ -45,14 +46,15 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     paths = pick_checkpoints(run / "checkpoints", args.n)
-    players, labels, steps = [RandomBot(seed=0), ChaseBot()], ["random", "chase"], [None, None]
+    config = game_config(load_checkpoint(paths[0])[0])
+    players, labels, steps = [RandomBot(seed=0), chase_for(config)], ["random", "chase"], [None, None]
     for p in paths:
         net, meta = load_checkpoint(p)
         players.append(PolicyPlayer(net, name=p.stem))
         labels.append(f"{meta['env_steps'] / 1e6:.1f}M")
         steps.append(meta["env_steps"])
 
-    score, win = crossplay(players, n_games=args.games, verbose=True)
+    score, win = crossplay(players, n_games=args.games, config=config, verbose=True)
     elo = fit_elo(score, anchor=0, anchor_rating=0.0)
 
     np.savez(out / "crossplay.npz", score=score, win=win, labels=np.array(labels), elo=elo)

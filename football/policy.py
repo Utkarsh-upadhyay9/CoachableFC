@@ -54,15 +54,25 @@ class ActorCritic(nn.Module):
 
 
 class PolicyPlayer:
-    """Wrap a network as a ``obs (B, D) -> actions (B,)`` numpy callable."""
+    """Wrap a network as a ``obs (B, D) -> actions (B,)`` numpy callable.
 
-    def __init__(self, net: ActorCritic, greedy: bool = False, name: str = "policy"):
+    A tactic-conditioned network expects a tactic vector after the game
+    observation; it gets ``z`` (zeros, the neutral tactic, by default).
+    """
+
+    def __init__(self, net: ActorCritic, greedy: bool = False, name: str = "policy", z=None):
         self.net = net
         self.greedy = greedy
         self.name = name
+        self.z = None if z is None else np.asarray(z, dtype=np.float32)
 
     @torch.no_grad()
     def __call__(self, obs: np.ndarray) -> np.ndarray:
+        obs = np.asarray(obs, dtype=np.float32)
+        extra = self.net.obs_dim - obs.shape[1]
+        if extra > 0:
+            z = np.zeros(extra, dtype=np.float32) if self.z is None else self.z
+            obs = np.concatenate([obs, np.broadcast_to(z, (len(obs), extra))], axis=1)
         logits = self.net.actor(torch.as_tensor(obs, dtype=torch.float32))
         if self.greedy:
             return logits.argmax(dim=-1).numpy()
@@ -83,6 +93,6 @@ def load_checkpoint(path: str | Path) -> tuple[ActorCritic, dict]:
     return net, data.get("meta", {})
 
 
-def load_player(path: str | Path, greedy: bool = False, name: str | None = None) -> PolicyPlayer:
+def load_player(path: str | Path, greedy: bool = False, name: str | None = None, z=None) -> PolicyPlayer:
     net, _ = load_checkpoint(path)
-    return PolicyPlayer(net, greedy=greedy, name=name or Path(path).stem)
+    return PolicyPlayer(net, greedy=greedy, name=name or Path(path).stem, z=z)
