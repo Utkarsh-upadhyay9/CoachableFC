@@ -28,6 +28,37 @@ its own point of view) and picks one of 18 actions (move direction × kick).
 
 ![Elo over training](results/elo_compare.png)
 
+## Final project: 2v2 with a coachable teammate
+
+**Report:** [report/FINAL_REPORT.md](report/FINAL_REPORT.md)
+
+The same game with two players per team. One network controls both
+teammates, and a conditioned version also takes a 4-number tactic (press,
+flank, spread, possession). A local LLM, run through Ollama, turns a typed
+tactic like "park the bus" into those numbers.
+
+- The tactic-conditioned team is the strongest 2v2 team (+348 Elo over a
+  random team), and it follows three of its four tactics: press, spread and
+  possession. Left/right play has no effect.
+- With ten times the tactic reward it follows all four, but stops winning
+  (9% vs the scripted chase team).
+- Latest-only self-play collapses into 100% draws again, from 42.3M steps.
+- Keyword matching with the LLM as a fallback reads 92.7% of tactic values
+  correctly on held-out phrases, better than keywords (88.5%) or the LLM
+  alone (79–88%).
+
+![Where the conditioned team stands under different tactics](results/2v2/tactics_cond/tactic_heatmaps.png)
+
+```bash
+brew install ollama && ollama serve &        # optional, for typed tactics
+ollama pull qwen2.5:3b-instruct
+python scripts/serve_demo.py                 # web demo + coach at http://localhost:8000, pick Format: 2v2
+python scripts/play.py --team                # pygame 2v2; T cycles the teammate's tactic
+```
+
+Without Ollama, the web page's preset tactic buttons still work, and the
+coach falls back to keywords.
+
 ## Layout
 
 ```
@@ -40,6 +71,9 @@ football/
   ppo.py         PPO + GAE
   selfplay.py    self-play trainer (opponent pool / latest-only)
   evaluate.py    matches, cross-play round robin, Elo fit
+  tactics.py     2v2 tactic vectors and their behavior features
+  stats.py       2v2 coordination and tactic metrics
+  coach.py       text -> tactic (keywords, then a local Ollama model)
 scripts/
   train.py             train a run
   sanity_cartpole.py   PPO sanity check on CartPole-v1
@@ -49,8 +83,12 @@ scripts/
   play.py              play against an agent with the keyboard (pygame)
   record.py            record matches to GIF
   export_web.py        export policies to JSON for the browser
+  eval_2v2.py          2v2 baselines, coordination, head-to-head
+  tactics_eval.py      does the conditioned team follow its tactic?
+  coach_bench.py       coach accuracy and latency benchmark
+  serve_demo.py        web demo server with the /coach endpoint
 docs/            the GitHub Pages site (JS port of the game + policy inference)
-models/          selected checkpoints (final.pt is the final agent)
+models/          selected checkpoints (final.pt is the final agent; 2v2/ has the 2v2 teams)
 runs/            per-run config, metrics.csv and final checkpoint
 results/         figures and evaluation outputs
 report/          the write-up
