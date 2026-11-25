@@ -1,5 +1,6 @@
 import { CFG, Game, MOVE_DIRS, N_ACTIONS, N_MOVES, TEAM_CFG } from "./game.js";
 import { ChaseBot, Policy, RandomBot, TeamChaseBot } from "./policy.js";
+import { MODEL, browserCoach, loadCoachData, modelLoading } from "./coach.js";
 
 // Tactic dimensions, in the order the conditioned network expects (football/tactics.py).
 const TACTICS = [
@@ -793,7 +794,10 @@ if (document.fullscreenEnabled && fsTarget.requestFullscreen) {
 }
 
 // ---------------------------------------------------------------------- coach
-// Presets work anywhere. Typed tactics need scripts/serve_demo.py, which runs the LLM coach locally.
+// Presets work anywhere. Typed tactics go to scripts/serve_demo.py when it is running,
+// otherwise to the keyword parser and in-browser model in coach.js.
+let coachData = null;
+
 function setTactic(z, label) {
   state.z = Float32Array.from(z);
   document.querySelectorAll("#presets button").forEach((b) => b.setAttribute("aria-pressed", String(b.textContent === label)));
@@ -828,32 +832,68 @@ function setupCoach() {
     $("presets").append(b);
   }
   setTactic(PRESETS[0].z, PRESETS[0].label);
-  $("coach-note").textContent = "Typing a tactic needs the local coach server (python scripts/serve_demo.py). The presets work anywhere.";
+  const browserNote = `Typed phrases are matched by keywords first. Anything else loads ${MODEL.name} (about ${MODEL.mb} MB, downloaded once and cached) and runs it in your browser with WebGPU. Nothing you type leaves your computer.`;
+  $("coach-note").textContent = browserNote;
 
+  // scripts/serve_demo.py answers coach/health; then the local server (Ollama) does the coaching.
+  let server = null;
   fetch("coach/health").then((r) => (r.ok ? r.json() : null)).then((h) => {
     if (!h) return;
-    $("coach-form").hidden = false;
+    server = h;
     $("coach-note").textContent = `Coach model: ${h.model}, running on this machine.`;
   }).catch(() => {});
 
+  const showLoad = (p, text) => {
+    $("coach-load").hidden = false;
+    const pct = Math.round(Math.max(0, Math.min(1, p)) * 100);
+    $("coach-load-bar").style.transform = `scaleX(${pct / 100})`;
+    $("coach-load-meter").setAttribute("aria-valuenow", String(pct));
+    $("coach-load-val").textContent = `${pct}%`;
+    $("coach-note").textContent = `Loading ${MODEL.name} in your browser: ${text}`;
+  };
+
+  async function askServer(text) {
+    const res = await fetch("coach", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
+    if (!res.ok) throw new Error(`coach answered ${res.status}`);
+    const out = await res.json();
+    const how = out.source === "llm" ? `${out.model} on this machine, ${out.latency_s.toFixed(1)} s` : "matched keywords";
+    return { z: out.z, how };
+  }
+
+  async function askBrowser(text) {
+    if (!coachData) coachData = await loadCoachData();
+    const first = !modelLoading();
+    const out = await browserCoach(text, showLoad);
+    if (out.source === "browser") {
+      if (first) $("coach-note").textContent = `${MODEL.name} (${out.model}) is running in your browser.`;
+      $("coach-load").hidden = true;
+      return { z: out.z, how: `${MODEL.name} in your browser, ${out.latency_s.toFixed(1)} s` };
+    }
+    if (!out.error) return { z: out.z, how: "matched keywords" };
+    $("coach-load").hidden = true;
+    if (out.loaded) return { z: out.z, how: `${MODEL.name} gave no usable answer, so the tactic is neutral` };
+    $("coach-note").textContent = `The in-browser model could not run (${out.error}), so only keyword phrases work here. ${browserNote}`;
+    return { z: out.z, how: "no keyword matched and the in-browser model is unavailable, so the tactic is neutral" };
+  }
+
+  let latest = 0;
   $("coach-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const text = $("coach-text").value.trim();
     if (!text) return;
-    $("coach-send").disabled = true;
+    const ticket = ++latest;
+    $("coach-send").disabled = Boolean(server);
     say("Asking the coach…");
     try {
-      const res = await fetch("coach", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
-      if (!res.ok) throw new Error(`coach answered ${res.status}`);
-      const out = await res.json();
+      const out = server ? await askServer(text) : await askBrowser(text);
+      if (ticket !== latest) return; // a newer tactic was sent while this one was loading
       setTactic(TACTICS.map((t) => out.z[t.id]), "");
-      const how = out.source === "llm" ? `${out.model}, ${out.latency_s.toFixed(1)} s` : "matched keywords";
-      say(`Coach heard "${text}" (${how}).`);
+      say(`Coach heard "${text}" (${out.how}).`);
     } catch (err) {
-      say(`The coach did not answer: ${err.message}. Use a preset instead.`);
+      if (ticket === latest) say(`The coach did not answer: ${err.message}. Use a preset instead.`);
     } finally {
       $("coach-send").disabled = false;
-      focusPitch();
+      if (ticket === latest) focusPitch();
     }
   });
 }

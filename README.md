@@ -56,8 +56,18 @@ python scripts/serve_demo.py                 # web demo + coach at http://localh
 python scripts/play.py --team                # pygame 2v2; T cycles the teammate's tactic
 ```
 
-Without Ollama, the web page's preset tactic buttons still work, and the
-coach falls back to keywords.
+Without the local server (for example on the [live demo](https://utkarsh-upadhyay9.github.io/selfplay-football/)),
+the coach box still works: phrases are matched by the same keywords in
+JavaScript (`docs/js/coach.js`, checked against Python by a test), and
+anything else goes to Qwen2.5 1.5B running in your browser with
+[WebLLM](https://github.com/mlc-ai/web-llm). That needs WebGPU, and the
+first use downloads about 880 MB, which the browser then caches. Without
+WebGPU only the keywords and the preset buttons work. The browser model is
+weaker than qwen2.5 3B: on the held-out phrases the in-browser hybrid gets
+78.1% of tactic values right (`results/2v2/coach_bench_browser.json`).
+
+After changing the keywords or the prompt in `football/coach.py`, run
+`python -m football.coach` to rewrite `docs/js/coach.json`.
 
 ## Layout
 

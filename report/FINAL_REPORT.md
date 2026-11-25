@@ -343,6 +343,7 @@ right, and median latency on the M5 MacBook Air.
 | qwen2.5 7B | 87.5% | 62.5% | 93.8% | 2.0 s |
 | keywords, then qwen2.5 3B | **92.7%** | **75.0%** | 96.1% | < 1 ms (LLM on 11 of 24) |
 | keywords, then qwen2.5 7B | **92.7%** | **75.0%** | 98.4% | < 1 ms (LLM on 11 of 24) |
+| keywords, then Qwen2.5 1.5B in the browser | 78.1% | 54.2% | not run | < 1 ms (LLM on 11 of 24, 1.5 s each) |
 
 On their own, the 3B models are worse than a keyword list, and the 7B model
 only matches it. The two fail in different ways. When the keyword parser is
@@ -353,6 +354,16 @@ something and the LLM otherwise gets the best of both, and the slow model
 runs on fewer than half of the phrases. I picked this hybrid after looking at
 the test-set errors, so its 92.7% on the test set is optimistic. The demo
 uses the hybrid with qwen2.5 3B.
+
+The last row is the live web page's coach without the local server: the
+same keywords in JavaScript, then Qwen2.5-1.5B-Instruct (q4f16_1, about
+880 MB) run in the browser by WebLLM, measured once in Cursor's built-in
+Chromium browser on the M5 after the model was cached
+(`coach_bench_browser.json`). It is worse than keywords alone. On the 11
+phrases it handles it gets 54.5% of values right (qwen2.5 3B: 86.4%), it
+often adds a confident value nobody asked for ("dominate the ball" became
+press +1, spread +1, possession +1), and once it returned cut-off JSON, so
+that phrase fell back to neutral.
 
 ### 5.8 Recorded matches
 
@@ -370,8 +381,12 @@ against an AI team. A coach panel shows the current tactic as four labeled
 bars, with preset buttons (press high, park the bus, left wing, spread out,
 keep the ball, …). Run `python scripts/serve_demo.py` and a text box
 appears: what you type goes to the local coach, and the teammate plays the
-returned tactic. Served as static files (GitHub Pages), the presets still
-work and the text box stays hidden. The 1v1 mode is unchanged.
+returned tactic. Served as static files (GitHub Pages), the text box runs
+the same keyword parser in JavaScript (a test checks it against the Python
+one on every benchmark phrase) and sends everything else to Qwen2.5 1.5B
+running in the visitor's browser with WebLLM and WebGPU. The first use
+downloads the model, with a progress bar in the coach panel. Without WebGPU
+only keywords and presets work. The 1v1 mode is unchanged.
 
 `python scripts/play.py --team` does the same in pygame. T cycles the
 teammate through the presets.

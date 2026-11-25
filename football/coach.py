@@ -139,3 +139,17 @@ class Coach:
 
 def z_vector(z: dict) -> list[float]:
     return [float(z[k]) for k in TACTICS]
+
+
+WEB_DATA = Path(__file__).resolve().parents[1] / "docs" / "js" / "coach.json"
+
+
+def web_data() -> dict:
+    """The keywords, prompt and schema the browser coach (docs/js/coach.js) reads."""
+    return {"tactics": list(TACTICS), "keywords": [list(k) for k in KEYWORDS], "negation": NEGATION,
+            "mild": MILD, "system": SYSTEM, "schema": SCHEMA}
+
+
+if __name__ == "__main__":  # python -m football.coach rewrites docs/js/coach.json
+    WEB_DATA.write_text(json.dumps(web_data(), indent=1) + "\n")
+    print(f"wrote {WEB_DATA}")

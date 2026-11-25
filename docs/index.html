@@ -113,12 +113,16 @@
 
         <section class="coach" id="coach" aria-labelledby="coach-h" hidden>
           <h2 id="coach-h">Coach your teammate</h2>
-          <p class="note">Your red teammate was trained to follow a tactic. Pick one, or type your own. Common football phrases are matched directly; anything else goes to a small language model running on this laptop.</p>
-          <form class="coach-say" id="coach-form" hidden>
+          <p class="note">Your red teammate was trained to follow a tactic. Pick one, or type your own. Common football phrases are matched directly; anything else goes to a small language model running on your own computer.</p>
+          <form class="coach-say" id="coach-form">
             <label class="sr-only" for="coach-text">Tactic for your teammate</label>
             <input id="coach-text" type="text" maxlength="200" placeholder="e.g. press high on the left" autocomplete="off" />
             <button type="submit" id="coach-send">Send</button>
           </form>
+          <div class="coach-load" id="coach-load" hidden>
+            <span class="meter" role="progressbar" aria-label="Loading the coach model" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="coach-load-meter"><i id="coach-load-bar"></i></span>
+            <output id="coach-load-val">0%</output>
+          </div>
           <div class="presets" id="presets" role="group" aria-label="Preset tactics"></div>
           <dl class="meters tactic" id="tactic-bars"></dl>
           <p class="note" id="coach-note"></p>

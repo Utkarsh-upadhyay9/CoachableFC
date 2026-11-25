@@ -1,0 +1,326 @@
+{
+  "what": "keywords first, then Qwen2.5-1.5B-Instruct-q4f16_1-MLC in the browser (WebLLM 0.2.89, WebGPU), test set",
+  "browser": "Cursor's embedded browser (Chrome 150 / Electron), Apple M5 MacBook Air, model already cached",
+  "n_phrases": 24,
+  "dim_accuracy": 0.78125,
+  "phrase_accuracy": 0.5416666666666666,
+  "llm_calls": 11,
+  "llm_answer_failures": 1,
+  "dim_accuracy_on_llm_phrases": 0.5454545454545454,
+  "median_model_latency_s": 1.4775,
+  "rows": [
+    {
+      "text": "high pressing game",
+      "z": {
+        "press": 1,
+        "flank": 0,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "take the game to them",
+      "z": {
+        "press": 1,
+        "flank": -1,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "browser",
+      "model_latency_s": 3.993,
+      "error": null,
+      "correct_dims": 3
+    },
+    {
+      "text": "everyone back, protect the lead",
+      "z": {
+        "press": -1,
+        "flank": 0,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "browser",
+      "model_latency_s": 2.274,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "drop off and stay compact",
+      "z": {
+        "press": 0,
+        "flank": 0,
+        "spread": -1,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 3
+    },
+    {
+      "text": "play down the left touchline",
+      "z": {
+        "press": 0,
+        "flank": 1,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "overload the right side",
+      "z": {
+        "press": 0,
+        "flank": -1,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "focus our play up top",
+      "z": {
+        "press": 0,
+        "flank": 1,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "keep it central",
+      "z": {
+        "press": 1,
+        "flank": 0,
+        "spread": 0,
+        "possession": 1
+      },
+      "source": "browser",
+      "model_latency_s": 1.328,
+      "error": null,
+      "correct_dims": 2
+    },
+    {
+      "text": "give each other more space",
+      "z": {
+        "press": -1,
+        "flank": -1,
+        "spread": -1,
+        "possession": 0
+      },
+      "source": "browser",
+      "model_latency_s": 1.67,
+      "error": null,
+      "correct_dims": 1
+    },
+    {
+      "text": "cover the whole width of the pitch",
+      "z": {
+        "press": 0,
+        "flank": 0,
+        "spread": 1,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "stay tight as a pair",
+      "z": {
+        "press": 0,
+        "flank": 0,
+        "spread": -1,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "don't drift apart",
+      "z": {
+        "press": 0,
+        "flank": 0,
+        "spread": -1,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "dominate the ball",
+      "z": {
+        "press": 1,
+        "flank": 0,
+        "spread": 1,
+        "possession": 1
+      },
+      "source": "browser",
+      "model_latency_s": 1.471,
+      "error": null,
+      "correct_dims": 2
+    },
+    {
+      "text": "win every 50/50",
+      "z": {
+        "press": 1,
+        "flank": -1,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "browser",
+      "model_latency_s": 1.484,
+      "error": null,
+      "correct_dims": 1
+    },
+    {
+      "text": "let them come at us and break fast",
+      "z": {
+        "press": -1,
+        "flank": 1,
+        "spread": 0,
+        "possession": 1
+      },
+      "source": "browser",
+      "model_latency_s": 1.357,
+      "error": null,
+      "correct_dims": 2
+    },
+    {
+      "text": "hang back and wait for their mistake",
+      "z": {
+        "press": 0,
+        "flank": 0,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "browser_failed",
+      "model_latency_s": 2.929,
+      "error": "Unexpected end of JSON input",
+      "correct_dims": 2
+    },
+    {
+      "text": "press them on the left and stay together",
+      "z": {
+        "press": 1,
+        "flank": 1,
+        "spread": -1,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "spread wide and keep the ball",
+      "z": {
+        "press": 0,
+        "flank": 0,
+        "spread": 1,
+        "possession": 1
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "a little more attacking",
+      "z": {
+        "press": 0.5,
+        "flank": 0,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "calm down, stop pressing",
+      "z": {
+        "press": -1,
+        "flank": 0,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "just have fun",
+      "z": {
+        "press": 1,
+        "flank": 0,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "browser",
+      "model_latency_s": 1.442,
+      "error": null,
+      "correct_dims": 3
+    },
+    {
+      "text": "what's the weather like",
+      "z": {
+        "press": 0,
+        "flank": 0,
+        "spread": 1,
+        "possession": -1
+      },
+      "source": "browser",
+      "model_latency_s": 1.238,
+      "error": null,
+      "correct_dims": 2
+    },
+    {
+      "text": "defend deep on the bottom side",
+      "z": {
+        "press": -1,
+        "flank": -1,
+        "spread": 0,
+        "possession": 0
+      },
+      "source": "keywords",
+      "model_latency_s": null,
+      "error": null,
+      "correct_dims": 4
+    },
+    {
+      "text": "go for the win, all forward",
+      "z": {
+        "press": 1,
+        "flank": -1,
+        "spread": 0,
+        "possession": 1
+      },
+      "source": "browser",
+      "model_latency_s": 1.495,
+      "error": null,
+      "correct_dims": 2
+    }
+  ],
+  "note": "Run in one session after the model was cached. 'browser_failed' means the model answered with truncated JSON, so the coach fell back to the (empty) keyword result. The first answer in the demo, 'dominate the ball', took 3.3 s after loading."
+}

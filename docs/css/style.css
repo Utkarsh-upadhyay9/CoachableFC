@@ -249,6 +249,9 @@ button.quiet:hover:not(:disabled) { background: rgba(255,255,255,0.14); }
   flex: 1; min-width: 0; font: inherit; font-size: 0.9375rem; padding: 8px 12px;
   background: var(--surface); border: 1.5px solid var(--ink); border-radius: 6px; color: var(--ink);
 }
+.coach-load { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; }
+.coach-load[hidden] { display: none; }
+.coach-load output { min-width: 4ch; font-size: 0.875rem; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
 .presets { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
 .presets button { padding: 6px 12px; font-size: 0.875rem; }
 .presets button[aria-pressed="true"] { background: var(--card); border-color: var(--card); }
