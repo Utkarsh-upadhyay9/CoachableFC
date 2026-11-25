@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Self-play football: beat an agent that taught itself</title>
-  <meta name="description" content="Play 1v1 football in your browser against an agent trained from scratch with self-play PPO." />
+  <meta name="description" content="Play 1v1 or 2v2 football in your browser against agents trained from scratch with self-play PPO." />
   <meta name="theme-color" content="#14221b" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23fff' stroke='%2314221b' stroke-width='2.5'/%3E%3Cpath d='M16 9.5l5.6 4.1-2.1 6.6h-7l-2.1-6.6z' fill='%2314221b'/%3E%3C/svg%3E" />
   <link rel="preload" href="fonts/big-shoulders-display-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
@@ -193,7 +193,7 @@
 
     <section id="results" class="prose results" aria-labelledby="res-h">
       <h2 id="res-h">What training showed</h2>
-      <p class="lede">Four runs of 30M steps each, about 16 minutes apiece on an M5 MacBook Air: the main setup with two seeds, a run with goal rewards only, and a run that played only its latest copy.</p>
+      <p class="lede">The midterm, in 1v1: four runs of 30M steps each, about 16 minutes apiece on an M5 MacBook Air: the main setup with two seeds, a run with goal rewards only, and a run that played only its latest copy.</p>
 
       <article class="finding">
         <div>
@@ -265,12 +265,81 @@
         <figcaption>The final agent (red) against the scripted chase bot.</figcaption>
       </figure>
 
-      <p class="links"><a href="https://github.com/Utkarsh-upadhyay9/selfplay-football">Code on GitHub</a> and the <a href="https://github.com/Utkarsh-upadhyay9/selfplay-football/blob/main/report/REPORT.md">full report</a>.</p>
+      <h3 class="table-h" id="res-2v2">2v2 with a coachable teammate</h3>
+      <p class="lede">The final project. One network controls both players of a team, and one version also takes a four-number tactic: press, flank, spread and possession. Five runs of 50M steps each.</p>
+
+      <article class="finding">
+        <div>
+          <h3>The pool still helps, but seeds disagree</h3>
+          <p>One pool run reached +287 Elo over a random team. The same setup with another seed stalled at +130, with 91% of its self-play games drawn. Playing only the latest copy peaked at +245 near 23M steps, and from 42.3M steps on every self-play game was a 0–0 draw. The tactic-conditioned team ended strongest, at +348.</p>
+        </div>
+        <figure>
+          <img src="figures/2v2_elo_compare.png" width="1050" height="600" alt="Elo of 2v2 checkpoints over training for the five runs" loading="lazy" />
+          <figcaption>Elo of 2v2 checkpoints over training, fitted from round-robin cross-play. The random team is 0.</figcaption>
+        </figure>
+      </article>
+
+      <article class="finding">
+        <div>
+          <h3>The teammate follows three of four tactics</h3>
+          <p>Told to press, it plays higher up the pitch and wins more: 24% of games against the chase team at press −1, 54% at +1. Spread and possession move less but clearly. Left or right wing has no effect. With ten times the tactic reward, the team follows all four, but wins at most 12% against the chase team.</p>
+        </div>
+        <figure>
+          <img src="figures/2v2_press_high.gif" width="530" height="378" alt="The conditioned team in red, told to press high, playing the scripted chase team in blue" loading="lazy" />
+          <figcaption>The conditioned team (red) told to press high, against the scripted chase team.</figcaption>
+        </figure>
+      </article>
+
+      <figure class="wide">
+        <img src="figures/2v2_tactic_sweep.png" width="1902" height="496" alt="For each tactic value from −1 to 1, the matching behavior of the conditioned team and its win rate against the chase team" loading="lazy" />
+        <figcaption>Each tactic value set alone from −1 to 1, 500 games per setting against the chase team. The dashed line is the team trained without tactics.</figcaption>
+      </figure>
+
+      <h3 class="table-h">Final 2v2 teams against the bots</h3>
+      <p class="note">1000 games each, sides alternating. Bars show wins, draws and losses.</p>
+      <div class="table-wrap">
+        <table class="wdl-table">
+          <thead>
+            <tr><th scope="col">Team</th><th scope="col">Against a random team</th><th scope="col">Against the chase team</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Tactic-conditioned<small>Your teammate in 2v2</small></th>
+              <td><div class="wdl" style="--w:76.9;--d:22.9;--l:0.2"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">77 W, 23 D, 0 L</span></div></td>
+              <td><div class="wdl" style="--w:39.9;--d:55.8;--l:4.3"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">40 W, 56 D, 4 L</span></div></td>
+            </tr>
+            <tr>
+              <th scope="row">Pool self-play, seed 1<small>The Pro team</small></th>
+              <td><div class="wdl" style="--w:65.4;--d:28.3;--l:6.3"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">65 W, 28 D, 6 L</span></div></td>
+              <td><div class="wdl" style="--w:57.8;--d:19.2;--l:23"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">58 W, 19 D, 23 L</span></div></td>
+            </tr>
+            <tr>
+              <th scope="row">Pool self-play, seed 0</th>
+              <td><div class="wdl" style="--w:23.9;--d:75.3;--l:0.8"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">24 W, 75 D, 1 L</span></div></td>
+              <td><div class="wdl" style="--w:35.2;--d:50.3;--l:14.5"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">35 W, 50 D, 15 L</span></div></td>
+            </tr>
+            <tr>
+              <th scope="row">Latest copy only</th>
+              <td><div class="wdl" style="--w:7.5;--d:90.7;--l:1.8"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">8 W, 91 D, 2 L</span></div></td>
+              <td><div class="wdl" style="--w:13.4;--d:18.4;--l:68.2"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">13 W, 18 D, 68 L</span></div></td>
+            </tr>
+            <tr>
+              <th scope="row">Tactic-conditioned, 10× tactic reward</th>
+              <td><div class="wdl" style="--w:32.4;--d:59.2;--l:8.4"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">32 W, 59 D, 8 L</span></div></td>
+              <td><div class="wdl" style="--w:8.9;--d:11.2;--l:79.9"><span class="stack" aria-hidden="true"><i class="w"></i><i class="d"></i><i class="l"></i></span><span class="nums">9 W, 11 D, 80 L</span></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="after-table">The teams pass very little: the best one completes about one pass per game, and both players often chase the ball together. The coach reads 92.7% of tactic values correctly on 24 held-out phrases by trying keywords first and asking qwen2.5 3B only when they find nothing, against 88.5% for keywords alone and 79.2% for the model alone. I picked that setup after seeing the test errors, so the number is optimistic.</p>
+
+      <p class="links"><a href="https://github.com/Utkarsh-upadhyay9/selfplay-football">Code on GitHub</a>, the <a href="https://github.com/Utkarsh-upadhyay9/selfplay-football/blob/main/report/REPORT.md">midterm report</a> and the <a href="https://github.com/Utkarsh-upadhyay9/selfplay-football/blob/main/report/FINAL_REPORT.md">final report</a>.</p>
     </section>
   </main>
 
   <footer>
-    <p>Midterm project for CSE 4633 Artificial Intelligence, Fall 2026, by Utkarsh Upadhyay.</p>
+    <p>Midterm and final project for CSE 4633 Artificial Intelligence, Fall 2026, by Utkarsh Upadhyay.</p>
   </footer>
 
   <script type="module" src="js/main.js"></script>

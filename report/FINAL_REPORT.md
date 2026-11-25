@@ -63,7 +63,7 @@ P ∈ {1, 2}. 1v1 output is bit-identical to the midterm code (checked over
   and 35.2% from the right, with 31.1% draws (about one standard error
   apart). Random vs random wins 10.1% vs 9.9%.
 - **Speed:** with random actions and 256 parallel games, the physics runs at
-  1.21M env-steps/s in 1v1 and 439k in 2v2 (`env_checks.json`).
+  1.26M env-steps/s in 1v1 and 447k in 2v2 (`env_checks.json`).
 - **Parity:** the browser's JavaScript physics was generalized the same way.
   The parity test now steps both versions in 1v1 and in 2v2 and compares
   positions, ball, all observations, touches, goals and the chase bot's
@@ -136,7 +136,7 @@ or five runs training at once.
 `2v2_cond_w10` was not in the original plan. At 12M steps `2v2_cond`
 showed no response to any tactic. I added a run with ten times the weight to
 test whether the signal was too weak, and kept the original run going
-unchanged. By 50M steps the original run did respond (section 5.5).
+unchanged. By 50M steps the original run did respond (section 5.6).
 
 Final models are in `models/2v2/`. The web demo's "Pro team" is
 `2v2_pool_seed1`. Your teammate in the demo is `2v2_cond`.

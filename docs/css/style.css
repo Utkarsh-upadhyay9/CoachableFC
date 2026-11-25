@@ -347,6 +347,8 @@ figcaption { color: var(--muted); font-size: 0.875rem; line-height: 1.45; paddin
 .clip { margin-top: 44px; max-width: 530px; }
 .clip img { border-radius: 6px; }
 .links { margin-top: 36px; }
+.wide { margin-top: 36px; }
+.after-table { margin-top: 28px; }
 
 footer { max-width: 1240px; margin: 0 auto; padding: 64px var(--gutter) 48px; color: var(--muted); font-size: 0.9375rem; }
 footer p { margin: 0; }

@@ -1,6 +1,6 @@
 # Self-Play Deep RL for 2D Football
 
-CSE 4633 Artificial Intelligence midterm project · Utkarsh Upadhyay (solo)
+CSE 4633 Artificial Intelligence midterm and final project · Utkarsh Upadhyay (solo)
 
 **Play it in the browser:** <https://utkarsh-upadhyay9.github.io/selfplay-football/>
 · **Report:** [report/REPORT.md](report/REPORT.md)
